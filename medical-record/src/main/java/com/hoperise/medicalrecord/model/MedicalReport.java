@@ -26,7 +26,7 @@ public class MedicalReport {
     private String additional_notes;
     @Column(name = "report_date")
     @NotNull
-    private LocalDate report_date;
+    private LocalDate date;
     @Column(name = "patient_id")
     @NotNull
     private Long patientId;
@@ -48,12 +48,12 @@ public class MedicalReport {
     public MedicalReport() {
     }
 
-    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate report_date, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
         this.diagnosis = diagnosis;
         this.treatment_plan = treatment_plan;
         this.tests_results = tests_results;
         this.additional_notes = additional_notes;
-        this.report_date = report_date;
+        this.date = date;
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.created = created;
@@ -62,12 +62,12 @@ public class MedicalReport {
         this.modifiedBy = modifiedBy;
     }
 
-    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate report_date, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
+    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
         this.diagnosis = diagnosis;
         this.treatment_plan = treatment_plan;
         this.tests_results = tests_results;
         this.additional_notes = additional_notes;
-        this.report_date = report_date;
+        this.date = date;
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.created = created;
@@ -114,12 +114,12 @@ public class MedicalReport {
         this.additional_notes = additional_notes;
     }
 
-    public LocalDate getReport_date() {
-        return report_date;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setReport_date(LocalDate report_date) {
-        this.report_date = report_date;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getPatientId() {
@@ -178,7 +178,7 @@ public class MedicalReport {
                 ", treatment_plan='" + treatment_plan + '\'' +
                 ", tests_results='" + tests_results + '\'' +
                 ", additional_notes='" + additional_notes + '\'' +
-                ", report_date=" + report_date +
+                ", report_date=" + date +
                 ", patientId=" + patientId +
                 ", doctorId=" + doctorId +
                 ", created=" + created +
