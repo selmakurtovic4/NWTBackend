@@ -3,6 +3,8 @@ package com.hoperise.medicalrecord.controller;
 import com.hoperise.medicalrecord.model.MedicalReport;
 import com.hoperise.medicalrecord.repository.MedicalReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,13 @@ public class MedicalReportController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        medicalReportRepository.deleteById(id);
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        if (medicalReportRepository.existsById(id)) {
+            medicalReportRepository.deleteById(id);
+            return ResponseEntity.ok("Medical report deleted successfully"); // Return 200 OK if deletion is successful
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medical report with that ID doesn't exist"); // Return 404 Not Found if entity with the specified ID does not exist
+        }
     }
 
 }
