@@ -3,6 +3,8 @@ package com.hoperise.medicalrecord.controller;
 import com.hoperise.medicalrecord.model.DoctorReferral;
 import com.hoperise.medicalrecord.repository.DoctorReferralRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,19 +24,19 @@ public class DoctorReferralController {
         return doctorReferralRepository.findAll();
     }
 
-    @GetMapping(path = "/all/{referringDoctorId}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferringDoctor(@PathVariable Long referringDoctorId) {// Implement logic to retrieve all doctor referrals for the specified patient ID
-        return doctorReferralRepository.findByReferringDoctorId(referringDoctorId);
+    @GetMapping(path = "/all/referring-doctor/{id}")
+    public List<DoctorReferral> getAllDoctorReferralsForReferringDoctor(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+        return doctorReferralRepository.findByReferringDoctorId(id);
     }
 
-    @GetMapping(path = "/all/{patientId}")
-    public List<DoctorReferral> getAllDoctorReferralsForPatient(@PathVariable Long patientId) {// Implement logic to retrieve all doctor referrals for the specified patient ID
-        return doctorReferralRepository.findByPatientId(patientId);
+    @GetMapping(path = "/all/patient/{id}")
+    public List<DoctorReferral> getAllDoctorReferralsForPatient(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+        return doctorReferralRepository.findByPatientId(id);
     }
 
-    @GetMapping(path = "/all/{referredDoctorId}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferredDoctor(@PathVariable Long referredDoctorId) {// Implement logic to retrieve all doctor referrals for the specified patient ID
-        return doctorReferralRepository.findByReferredDoctorId(referredDoctorId);
+    @GetMapping(path = "/all/referred-doctor/{id}")
+    public List<DoctorReferral> getAllDoctorReferralsForReferredDoctor(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+        return doctorReferralRepository.findByReferredDoctorId(id);
     }
 
     @PostMapping("/create")
@@ -43,7 +45,12 @@ public class DoctorReferralController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        doctorReferralRepository.deleteById(id);
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        if (doctorReferralRepository.existsById(id)) {
+            doctorReferralRepository.deleteById(id);
+            return ResponseEntity.ok("Doctor referral deleted successfully"); // Return 200 OK if deletion is successful
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor referral with that ID doesn't exist"); // Return 404 Not Found if entity with the specified ID does not exist
+        }
     }
 }
