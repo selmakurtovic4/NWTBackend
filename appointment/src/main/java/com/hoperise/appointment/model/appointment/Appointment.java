@@ -1,34 +1,38 @@
-package com.hoperise.appointment.model;
+package com.hoperise.appointment.model.appointment;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hoperise.appointment.model.Review;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "appointment")
 public class Appointment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "date")
-    @NotNull
+    @NotNull(message = "Date must be specified!")
     private LocalDate date;
     @Column(name = "time")
-    @NotNull
+    @NotNull(message = "Time must be specified!")
     private LocalTime time;
     @Column(name = "status")
-    @NotNull
-    private String status;
+    @NotNull(message = "Status must be specified!")
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
     @Column(name = "patient_id")
-    @NotNull
     private Long patientId;
     @Column(name = "doctor_id")
-    @NotNull
+    @NotNull(message = "Doctor ID must be specified!")
     private Long doctorId;
     @Column(name="created")
     @NotNull(message = "Creation date must be specified!")
@@ -40,11 +44,14 @@ public class Appointment {
     private LocalDateTime modified;
     @Column(name = "modified_by")
     private String modifiedBy;
+    @OneToOne(mappedBy = "appointment")
+    @JsonIgnore
+    private Review review;
 
     public Appointment() {
     }
 
-    public Appointment(LocalDate date, LocalTime time, String status, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+    public Appointment(LocalDate date, LocalTime time, AppointmentStatus status, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
         this.date = date;
         this.time = time;
         this.status = status;
@@ -56,7 +63,7 @@ public class Appointment {
         this.modifiedBy = modifiedBy;
     }
 
-    public Appointment(LocalDate date, LocalTime time, String status, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
+    public Appointment(LocalDate date, LocalTime time, AppointmentStatus status, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
         this.date = date;
         this.time = time;
         this.status = status;
@@ -90,11 +97,11 @@ public class Appointment {
         this.time = time;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 
@@ -161,4 +168,13 @@ public class Appointment {
                 ", modifiedBy='" + modifiedBy + '\'' +
                 '}';
     }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
 }
