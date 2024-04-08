@@ -40,8 +40,7 @@ public class MedicalReportService {
         if (medicalReportRepository.existsById(id)) {
             medicalReportRepository.deleteById(id);
             return "Medical report deleted successfully";
-        } else {
-            return "Medical report with that ID doesn't exist";
         }
+        return "Medical report with that ID doesn't exist";
     }
 }
