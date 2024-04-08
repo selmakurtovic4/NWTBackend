@@ -26,8 +26,8 @@ public class MedicalInformationController {
     }
 
     @PostMapping("/create")
-    public MedicalInformation create(@RequestBody MedicalInformation medicalReport) {
-        return medicalInformationRepository.save(medicalReport);
+    public MedicalInformation create(@RequestBody MedicalInformation medicalInformation) {
+        return medicalInformationRepository.save(medicalInformation);
     }
 
     @DeleteMapping("/delete/{id}")
