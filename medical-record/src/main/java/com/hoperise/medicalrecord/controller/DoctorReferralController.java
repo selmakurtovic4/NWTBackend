@@ -2,6 +2,7 @@ package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.DoctorReferral;
 import com.hoperise.medicalrecord.repository.DoctorReferralRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,22 +26,25 @@ public class DoctorReferralController {
     }
 
     @GetMapping(path = "/all/referring-doctor/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferringDoctor(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+    public List<DoctorReferral> getAllDoctorReferralsForReferringDoctor(@PathVariable Long id) {
         return doctorReferralRepository.findByReferringDoctorId(id);
     }
 
     @GetMapping(path = "/all/patient/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForPatient(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+    public List<DoctorReferral> getAllDoctorReferralsForPatient(@PathVariable Long id) {
         return doctorReferralRepository.findByPatientId(id);
     }
 
     @GetMapping(path = "/all/referred-doctor/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferredDoctor(@PathVariable Long id) {// Implement logic to retrieve all doctor referrals for the specified patient ID
+    public List<DoctorReferral> getAllDoctorReferralsForReferredDoctor(@PathVariable Long id) {
         return doctorReferralRepository.findByReferredDoctorId(id);
     }
 
     @PostMapping("/create")
-    public DoctorReferral create(@RequestBody DoctorReferral doctorReferral) {
+    public DoctorReferral create(@RequestBody @Valid DoctorReferral doctorReferral) {
+        if (doctorReferralRepository.existsByDateAndPatientId(doctorReferral.getDate(), doctorReferral.getPatientId())) {
+            throw new RuntimeException("A doctor referral for this patient on the given date already exists.");
+        }
         return doctorReferralRepository.save(doctorReferral);
     }
 
