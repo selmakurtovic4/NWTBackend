@@ -57,7 +57,7 @@ public class DoctorReferralController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteDoctorReferral(@PathVariable Long id) {
+    public @ResponseBody ResponseEntity<String> deleteDoctorReferral(@PathVariable Long id) {
         return new ResponseEntity<>(doctorReferralService.deleteDoctorReferral(id), HttpStatus.OK);
     }
 }
