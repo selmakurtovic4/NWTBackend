@@ -24,7 +24,7 @@ public class MedicalReport {
     private String tests_results;
     @Column(name = "additional_notes")
     private String additional_notes;
-    @Column(name = "report_date")
+    @Column(name = "date")
     @NotNull(message = "Date can't be null!")
     private LocalDate date;
     @Column(name = "patient_id")
