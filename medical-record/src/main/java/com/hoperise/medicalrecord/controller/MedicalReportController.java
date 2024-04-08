@@ -2,6 +2,7 @@ package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.MedicalReport;
 import com.hoperise.medicalrecord.repository.MedicalReportRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class MedicalReportController {
     }
 
     @PostMapping("/create")
-    public MedicalReport create(@RequestBody MedicalReport medicalReport) {
+    public MedicalReport create(@RequestBody @Valid MedicalReport medicalReport) {
         return medicalReportRepository.save(medicalReport);
     }
 
