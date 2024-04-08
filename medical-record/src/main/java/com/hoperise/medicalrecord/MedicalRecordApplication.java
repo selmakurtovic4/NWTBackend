@@ -67,16 +67,16 @@ public class MedicalRecordApplication implements CommandLineRunner {
         medicalInformationRepository.saveAll(medicalInformation);
 
         var doctorReferrals = new ArrayList<DoctorReferral>();
-        doctorReferrals.add(new DoctorReferral("Check up", Priority.NON_URGENT, LocalDate.of(2024, 5, 21), 1L, 1L, 2L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Check up", Priority.NON_URGENT, LocalDate.of(2024, 6, 21), 2L, 2L, 1L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("CT scan", Priority.URGENT, LocalDate.of(2024, 5, 21), 3L, 3L, 2L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Surgery", Priority.VERY_URGENT, LocalDate.of(2024, 7, 10), 1L, 4L, 3L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Biopsy", Priority.VERY_URGENT, LocalDate.of(2024, 8, 10), 2L, 1L, 1L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Dentist", Priority.URGENT, LocalDate.of(2024, 9, 21), 3L, 2L, 2L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Eye check up", Priority.NON_URGENT, LocalDate.of(2024, 5, 21), 1L, 3L, 3L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Heart scan", Priority.URGENT, LocalDate.of(2024, 6, 10), 2L, 4L, 1L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Lung scan", Priority.URGENT, LocalDate.of(2024, 7, 10), 3L, 5L, 2L, creationDate, createdBy));
-        doctorReferrals.add(new DoctorReferral("Sewing up patient's arm", Priority.VERY_URGENT, LocalDate.of(2024, 8, 21), 1L, 1L, 3L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Check up", Priority.NON_URGENT, LocalDateTime.of(2024, 5, 21, 10, 10), 1L, 1L, 2L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Check up", Priority.NON_URGENT, LocalDateTime.of(2024, 6, 21, 9, 10), 2L, 2L, 1L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("CT scan", Priority.URGENT, LocalDateTime.of(2024, 5, 21, 8, 10), 3L, 3L, 2L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Surgery", Priority.VERY_URGENT, LocalDateTime.of(2024, 7, 10, 10, 10), 1L, 4L, 3L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Biopsy", Priority.VERY_URGENT, LocalDateTime.of(2024, 8, 10, 10,10), 2L, 1L, 1L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Dentist", Priority.URGENT, LocalDateTime.of(2024, 9, 21, 10, 10), 3L, 2L, 2L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Eye check up", Priority.NON_URGENT, LocalDateTime.of(2024, 5, 21, 9, 9), 1L, 3L, 3L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Heart scan", Priority.URGENT, LocalDateTime.of(2024, 6, 10, 8, 10), 2L, 4L, 1L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Lung scan", Priority.URGENT, LocalDateTime.of(2024, 7, 10, 10, 10), 3L, 5L, 2L, creationDate, createdBy));
+        doctorReferrals.add(new DoctorReferral("Sewing up patient's arm", Priority.VERY_URGENT, LocalDateTime.of(2024, 8, 21, 10, 0), 1L, 1L, 3L, creationDate, createdBy));
         doctorReferralRepository.saveAll(doctorReferrals);
     }
 }
