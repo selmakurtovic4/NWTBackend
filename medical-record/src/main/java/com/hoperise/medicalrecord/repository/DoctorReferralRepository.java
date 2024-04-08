@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface DoctorReferralRepository extends JpaRepository<DoctorReferral, Long> {
@@ -14,4 +16,6 @@ public interface DoctorReferralRepository extends JpaRepository<DoctorReferral, 
     List<DoctorReferral> findByPatientId(@Param("patientId") Long patientId);
     @Query("SELECT dr FROM DoctorReferral dr WHERE dr.referredDoctorId = :referredDoctorId")
     List<DoctorReferral> findByReferredDoctorId(@Param("referredDoctorId") Long referredDoctorId);
+    @Query("SELECT CASE WHEN COUNT(dr) > 0 THEN true ELSE false END FROM DoctorReferral dr WHERE dr.date = :date AND dr.patientId = :patientId")
+    boolean existsByDateAndPatientId(@Param("date") LocalDateTime date, @Param("patientId") Long patientId);
 }
