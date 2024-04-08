@@ -1,7 +1,7 @@
 package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.MedicalInformation;
-import com.hoperise.medicalrecord.repository.MedicalInformationRepository;
+import com.hoperise.medicalrecord.service.MedicalInformationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,29 +15,24 @@ import java.util.List;
 public class MedicalInformationController {
 
     @Autowired
-    private final MedicalInformationRepository medicalInformationRepository;
+    private final MedicalInformationService medicalInformationService;
 
-    public MedicalInformationController(MedicalInformationRepository medicalInformationRepository) {
-        this.medicalInformationRepository = medicalInformationRepository;
+    public MedicalInformationController(MedicalInformationService medicalInformationService) {
+        this.medicalInformationService = medicalInformationService;
     }
 
     @GetMapping(path = "/all")
-    public List<MedicalInformation> getAllMedicalInformation() {
-        return medicalInformationRepository.findAll();
+    public @ResponseBody ResponseEntity<List<MedicalInformation>> getAllMedicalInformation() {
+        return new ResponseEntity<>(medicalInformationService.getAllMedicalInformation(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public MedicalInformation create(@RequestBody @Valid MedicalInformation medicalInformation) {
-        return medicalInformationRepository.save(medicalInformation);
+    public @ResponseBody ResponseEntity<MedicalInformation> createMedicalInformation(@RequestBody @Valid MedicalInformation medicalInformation) {
+        return new ResponseEntity<>(medicalInformationService.createMedicalInformation(medicalInformation), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        if (medicalInformationRepository.existsById(id)) {
-            medicalInformationRepository.deleteById(id);
-            return ResponseEntity.ok("Medical information deleted successfully"); // Return 200 OK if deletion is successful
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medical information with that ID doesn't exist"); // Return 404 Not Found if entity with the specified ID does not exist
-        }
+    public @ResponseBody ResponseEntity<String> deleteMedicalInformation(@PathVariable Long id) {
+        return new ResponseEntity<>(medicalInformationService.deleteMedicalInformation(id), HttpStatus.OK);
     }
 }
