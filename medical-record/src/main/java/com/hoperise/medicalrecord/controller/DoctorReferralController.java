@@ -43,7 +43,7 @@ public class DoctorReferralController {
     @PostMapping("/create")
     public DoctorReferral create(@RequestBody @Valid DoctorReferral doctorReferral) {
         if (doctorReferralRepository.existsByDateAndPatientId(doctorReferral.getDate(), doctorReferral.getPatientId())) {
-            throw new RuntimeException("A doctor referral for this patient on the given date already exists.");
+            throw new RuntimeException("A doctor referral for this patient on the given date and time already exists.");
         }
         return doctorReferralRepository.save(doctorReferral);
     }
