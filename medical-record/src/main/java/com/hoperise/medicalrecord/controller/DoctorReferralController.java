@@ -1,7 +1,7 @@
 package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.DoctorReferral;
-import com.hoperise.medicalrecord.repository.DoctorReferralRepository;
+import com.hoperise.medicalrecord.service.DoctorReferralService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,52 +9,55 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/doctor-referral")
 public class DoctorReferralController {
     @Autowired
-    private final DoctorReferralRepository doctorReferralRepository;
+    private final DoctorReferralService doctorReferralService;
 
-    public DoctorReferralController(DoctorReferralRepository doctorReferralRepository) {
-        this.doctorReferralRepository = doctorReferralRepository;
+    public DoctorReferralController(DoctorReferralService doctorReferralService) {
+        this.doctorReferralService = doctorReferralService;
     }
 
     @GetMapping(path = "/all")
-    public List<DoctorReferral> getAllDoctorReferrals() {
-        return doctorReferralRepository.findAll();
+    public @ResponseBody ResponseEntity<List<DoctorReferral>> getAllDoctorReferrals() {
+        var doctorReferrals = doctorReferralService.getAllDoctorReferrals();
+        return new ResponseEntity<>(doctorReferrals, HttpStatus.OK);
     }
 
     @GetMapping(path = "/all/referring-doctor/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferringDoctor(@PathVariable Long id) {
-        return doctorReferralRepository.findByReferringDoctorId(id);
+    public @ResponseBody ResponseEntity<List<DoctorReferral>> getAllDoctorReferralsForReferringDoctor(@PathVariable Long id) {
+        var doctorReferrals = doctorReferralService.getAllDoctorReferralsForReferringDoctor(id);
+        return new ResponseEntity<>(doctorReferrals, HttpStatus.OK);
     }
 
     @GetMapping(path = "/all/patient/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForPatient(@PathVariable Long id) {
-        return doctorReferralRepository.findByPatientId(id);
+    public @ResponseBody ResponseEntity<List<DoctorReferral>> getAllDoctorReferralsForPatient(@PathVariable Long id) {
+        var doctorReferrals = doctorReferralService.getAllDoctorReferralsForPatient(id);
+        return new ResponseEntity<>(doctorReferrals, HttpStatus.OK);
     }
 
     @GetMapping(path = "/all/referred-doctor/{id}")
-    public List<DoctorReferral> getAllDoctorReferralsForReferredDoctor(@PathVariable Long id) {
-        return doctorReferralRepository.findByReferredDoctorId(id);
+    public @ResponseBody ResponseEntity<List<DoctorReferral>> getAllDoctorReferralsForReferredDoctor(@PathVariable Long id) {
+        var doctorReferrals = doctorReferralService.getAllDoctorReferralsForReferredDoctor(id);
+        return new ResponseEntity<>(doctorReferrals, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/all/{id}")
+    public @ResponseBody ResponseEntity<Optional<DoctorReferral>> getDoctorReferral(@PathVariable Long id) {
+        return new ResponseEntity<>(doctorReferralService.getDoctorReferral(id), HttpStatus.OK);
+
     }
 
     @PostMapping("/create")
-    public DoctorReferral create(@RequestBody @Valid DoctorReferral doctorReferral) {
-        if (doctorReferralRepository.existsByDateAndPatientId(doctorReferral.getDate(), doctorReferral.getPatientId())) {
-            throw new RuntimeException("A doctor referral for this patient on the given date and time already exists.");
-        }
-        return doctorReferralRepository.save(doctorReferral);
+    public @ResponseBody ResponseEntity<DoctorReferral> createDoctorReferral(@RequestBody @Valid DoctorReferral doctorReferral) {
+        return new ResponseEntity<>(doctorReferralService.createDoctorReferral(doctorReferral), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        if (doctorReferralRepository.existsById(id)) {
-            doctorReferralRepository.deleteById(id);
-            return ResponseEntity.ok("Doctor referral deleted successfully"); // Return 200 OK if deletion is successful
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Doctor referral with that ID doesn't exist"); // Return 404 Not Found if entity with the specified ID does not exist
-        }
+    public ResponseEntity<String> deleteDoctorReferral(@PathVariable Long id) {
+        return new ResponseEntity<>(doctorReferralService.deleteDoctorReferral(id), HttpStatus.OK);
     }
 }
