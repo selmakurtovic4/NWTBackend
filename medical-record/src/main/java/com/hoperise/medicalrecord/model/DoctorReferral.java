@@ -18,19 +18,19 @@ public class DoctorReferral {
     private String reason;
     @Column(name = "priority")
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "Priority can't be null!")
     private Priority priority;
     @Column(name = "date")
-    @NotNull
+    @NotNull(message = "Date can't be null!")
     private LocalDate date;
     @Column(name = "referring_doctor_id")
-    @NotNull
+    @NotNull(message = "Referring doctor ID can't be null!")
     private Long referringDoctorId;
     @Column(name = "patient_id")
-    @NotNull
+    @NotNull(message = "Patient ID can't be null!")
     private Long patientId;
     @Column(name = "referred_doctor_id")
-    @NotNull
+    @NotNull(message = "Referred doctor ID can't be null!")
     private Long referredDoctorId;
     @Column(name = "created")
     @NotNull(message = "Creation date must be specified!")

@@ -25,13 +25,13 @@ public class MedicalReport {
     @Column(name = "additional_notes")
     private String additional_notes;
     @Column(name = "report_date")
-    @NotNull
+    @NotNull(message = "Date can't be null!")
     private LocalDate date;
     @Column(name = "patient_id")
-    @NotNull
+    @NotNull(message = "Patient ID can't be null!")
     private Long patientId;
     @Column(name = "doctor_id")
-    @NotNull
+    @NotNull(message = "Doctor ID can't be null!")
     private Long doctorId;
     @Column(name="created")
     @NotNull(message = "Creation date must be specified!")

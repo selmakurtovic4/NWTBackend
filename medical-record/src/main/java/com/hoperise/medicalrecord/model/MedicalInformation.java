@@ -1,7 +1,10 @@
 package com.hoperise.medicalrecord.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -21,13 +24,17 @@ public class MedicalInformation {
     @Column(name = "family_history")
     private String family_history;
     @Column(name = "height")
+    @DecimalMin(value = "0.0", message = "Height must be greater than or equal to 0!")
+    @DecimalMax(value = "300.0", message = "Height must be less than or equal to 300!")
     @NotNull(message = "Height must be specified!")
     private double height;
     @Column(name = "weight")
+    @DecimalMin(value = "0.0", message = "Weight must be greater than or equal to 0!")
+    @DecimalMax(value = "500.0", message = "Weight must be less than or equal to 500!")
     @NotNull(message = "Weight must be specified!")
     private double weight;
     @Column(name = "patient_id")
-    @NotNull
+    @NotNull(message = "Patient ID can't be null!")
     private Long patientId;
     @Column(name = "created")
     @NotNull(message = "Creation date must be specified!")
