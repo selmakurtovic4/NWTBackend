@@ -2,6 +2,8 @@ package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.MedicalReport;
 import com.hoperise.medicalrecord.repository.MedicalReportRepository;
+import com.hoperise.medicalrecord.service.DoctorReferralService;
+import com.hoperise.medicalrecord.service.MedicalReportService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,32 +15,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/medical-report")
 public class MedicalReportController {
-
     @Autowired
-    private final MedicalReportRepository medicalReportRepository;
+    private final MedicalReportService medicalReportService;
 
-    public MedicalReportController(MedicalReportRepository medicalReportRepository) {
-        this.medicalReportRepository = medicalReportRepository;
+    public MedicalReportController(MedicalReportService medicalReportService) {
+        this.medicalReportService = medicalReportService;
     }
 
     @GetMapping(path = "/all")
-    public List<MedicalReport> getAllMedicalReports() {
-        return medicalReportRepository.findAll();
+    public @ResponseBody ResponseEntity<List<MedicalReport>> getAllMedicalReports() {
+        return new ResponseEntity<>(medicalReportService.getAllMedicalReports(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public MedicalReport create(@RequestBody @Valid MedicalReport medicalReport) {
-        return medicalReportRepository.save(medicalReport);
+    public @ResponseBody ResponseEntity<MedicalReport> create(@RequestBody @Valid MedicalReport medicalReport) {
+        return new ResponseEntity<>(medicalReportService.createMedicalReport(medicalReport), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        if (medicalReportRepository.existsById(id)) {
-            medicalReportRepository.deleteById(id);
-            return ResponseEntity.ok("Medical report deleted successfully"); // Return 200 OK if deletion is successful
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Medical report with that ID doesn't exist"); // Return 404 Not Found if entity with the specified ID does not exist
-        }
+    public @ResponseBody ResponseEntity<String> delete(@PathVariable Long id) {
+        return new ResponseEntity<>(medicalReportService.deleteMedicalReport(id), HttpStatus.OK);
+
     }
 
 }
