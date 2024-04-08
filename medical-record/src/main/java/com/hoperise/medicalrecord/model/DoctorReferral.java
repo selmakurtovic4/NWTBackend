@@ -22,7 +22,7 @@ public class DoctorReferral {
     private Priority priority;
     @Column(name = "date")
     @NotNull(message = "Date can't be null!")
-    private LocalDate date;
+    private LocalDateTime date;
     @Column(name = "referring_doctor_id")
     @NotNull(message = "Referring doctor ID can't be null!")
     private Long referringDoctorId;
@@ -46,7 +46,7 @@ public class DoctorReferral {
     public DoctorReferral() {
     }
 
-    public DoctorReferral(String reason, Priority priority, LocalDate date, Long referringDoctorId, Long patientId, Long referredDoctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+    public DoctorReferral(String reason, Priority priority, LocalDateTime date, Long referringDoctorId, Long patientId, Long referredDoctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
         this.reason = reason;
         this.priority = priority;
         this.date = date;
@@ -59,7 +59,7 @@ public class DoctorReferral {
         this.modifiedBy = modifiedBy;
     }
 
-    public DoctorReferral(String reason, Priority priority, LocalDate date, Long referringDoctorId, Long patientId, Long referredDoctorId, LocalDateTime created, String createdBy) {
+    public DoctorReferral(String reason, Priority priority, LocalDateTime date, Long referringDoctorId, Long patientId, Long referredDoctorId, LocalDateTime created, String createdBy) {
         this.reason = reason;
         this.priority = priority;
         this.date = date;
@@ -94,11 +94,11 @@ public class DoctorReferral {
         this.priority = priority;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
