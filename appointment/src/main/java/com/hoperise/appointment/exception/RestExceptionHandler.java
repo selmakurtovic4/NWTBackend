@@ -28,8 +28,9 @@ public class RestExceptionHandler {
         return errors;
     }
     @ExceptionHandler(EntityNotFoundException.class)
-    private ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    private ResponseEntity<Map<String, String>> handleEntityNotFound(EntityNotFoundException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-
 }
