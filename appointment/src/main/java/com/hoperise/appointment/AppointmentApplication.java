@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class AppointmentApplication implements CommandLineRunner {
 	@Autowired
 	AppointmentRepository appointmentRepository;
