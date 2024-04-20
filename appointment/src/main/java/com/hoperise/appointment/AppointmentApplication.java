@@ -1,8 +1,5 @@
 package com.hoperise.appointment;
 
-import com.hoperise.appointment.model.Review;
-import com.hoperise.appointment.model.appointment.Appointment;
-import com.hoperise.appointment.model.appointment.AppointmentStatus;
 import com.hoperise.appointment.repository.AppointmentRepository;
 import com.hoperise.appointment.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
 
 
 @SpringBootApplication
