@@ -6,17 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 
 @SpringBootApplication
 @EnableDiscoveryClient
 public class AppointmentApplication implements CommandLineRunner {
-	@Autowired
-	AppointmentRepository appointmentRepository;
-
-	@Autowired
-	ReviewRepository reviewRepository;
+//	@Autowired
+//	AppointmentRepository appointmentRepository;
+//
+//	@Autowired
+//	ReviewRepository reviewRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AppointmentApplication.class, args);
@@ -50,3 +51,4 @@ public class AppointmentApplication implements CommandLineRunner {
 //		reviewRepository.saveAll(reviews);
 	}
 }
+
