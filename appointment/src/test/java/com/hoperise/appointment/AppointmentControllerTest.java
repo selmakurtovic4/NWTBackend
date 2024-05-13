@@ -100,6 +100,7 @@ public class AppointmentControllerTest {
         String content = result.getResponse().getContentAsString();
         var appointments = objectMapper.readValue(content, List.class);
 
+
         Assertions.assertFalse(appointments.isEmpty());
     }
 
