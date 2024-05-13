@@ -1,4 +1,4 @@
-package com.hoperise.appointment;
+package com.hoperise.appointment.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
