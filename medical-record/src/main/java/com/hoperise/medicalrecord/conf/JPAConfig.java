@@ -1,4 +1,4 @@
-package com.hoperise.medicalrecord;
+package com.hoperise.medicalrecord.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
