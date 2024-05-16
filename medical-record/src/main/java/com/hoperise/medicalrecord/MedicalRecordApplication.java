@@ -1,21 +1,8 @@
 package com.hoperise.medicalrecord;
 
-import com.hoperise.medicalrecord.model.DoctorReferral;
-import com.hoperise.medicalrecord.model.MedicalInformation;
-import com.hoperise.medicalrecord.model.MedicalReport;
-import com.hoperise.medicalrecord.model.Priority;
-import com.hoperise.medicalrecord.repository.DoctorReferralRepository;
-import com.hoperise.medicalrecord.repository.MedicalInformationRepository;
-import com.hoperise.medicalrecord.repository.MedicalReportRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 
 @SpringBootApplication
 public class MedicalRecordApplication implements CommandLineRunner {
