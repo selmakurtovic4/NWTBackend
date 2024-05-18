@@ -3,48 +3,56 @@ package com.hoperise.patient.service;
 import com.hoperise.patient.model.Patient;
 import com.hoperise.patient.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class PatientService {
 
   @Autowired
   private PatientRepository patientRepository;
 
-    @Autowired
-    public PatientService(PatientRepository patientRepository) {
+   /* public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
-    }
+    }*/
 
-    public List<Patient> getPatientsByLastName(String lastname) {
-        return patientRepository.findByLastName(lastname);
-    }
+   /* public List<Patient> getPatientsByLastName(String last_name) {
+        return patientRepository.findByLastName(last_name);
+    }*/
 
     public Patient getPatientById(Long userId) {
         return patientRepository.findPatientByUserId(userId);
     }
+
+    public Patient createPatient(Patient patient) {
+        if (patientRepository.existsById(patient.getId())) {
+            throw new RuntimeException("A patient with this ID already exists.");
+        }
+
+        Patient newPatient = new Patient();
+        newPatient.setCity(patient.getCity());
+       // newPatient.setId(patient.getId());
+        newPatient.setJmbg(patient.getJmbg());
+        newPatient.setAdress(patient.getAdress());
+        newPatient.setGender(patient.getGender());
+        newPatient.setCity(patient.getCity());
+        newPatient.setFirst_name(patient.getFirst_name());
+        newPatient.setLast_name(patient.getLast_name());
+        newPatient.setDate_of_birth(patient.getDate_of_birth());
+        newPatient.setPhone_number(patient.getPhone_number());
+
+        return patientRepository.save(newPatient);
+    }
+
+    public String deletePatient(Long id){
+        if (patientRepository.existsById(id)) {
+           // throw new RuntimeException("A patient with this ID already exists.");
+            patientRepository.deleteById(id);
+            return ("Patient was deleted successfully.");
+        }
+        return ("A patient with this ID doesn't exist.");
+
+    }
 }
-/*@SpringBootApplication
-public class PatientApplication {
-
-    public static void main(String[] args) {
-		SpringApplication.run(PatientApplication.class, args);
-	}
-
-	private final PatientRepository patientRepository;
-
-	@Autowired
-	public PatientApplication(PatientRepository patientRepository) {
-		this.patientRepository = patientRepository;
-	}
-
-	public List<Patient> getPatientsByLastName(String lastname) {
-		return patientRepository.findByLastName(lastname);
-	}
-
-	public Patient getPatientById(Long userId) {
-		return patientRepository.findPatientByUserId(userId);
-	}
-
-}
-*/

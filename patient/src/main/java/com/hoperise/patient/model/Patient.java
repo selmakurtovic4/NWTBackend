@@ -47,4 +47,93 @@ public class Patient {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getJmbg() {
+        return jmbg;
+    }
+
+    public void setJmbg(Long jmbg) {
+        this.jmbg = jmbg;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public LocalDate getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(LocalDate date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public Long getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(Long phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Patient(Long id, Long jmbg, String first_name, String last_name, LocalDate date_of_birth, String city, String adress, Long phone_number, String gender, User user) {
+        this.id = id;
+        this.jmbg = jmbg;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.date_of_birth = date_of_birth;
+        this.city = city;
+        this.adress = adress;
+        this.phone_number = phone_number;
+        this.gender = gender;
+        this.user = user;
+    }
+
+    public Patient() {
+    }
 }
