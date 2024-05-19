@@ -135,27 +135,79 @@ public class DoctorReferralControllerTest {
     }
 
     @Test
-    public void createDoctorReferralShouldReturnCreated() throws Exception {
+    public void createAndDeleteDoctorReferralShouldCreateAndDeleteTheCreated() throws Exception {
+        var creationDate = LocalDateTime.now();
+        var createdBy = "Amina";
 
+        DoctorReferral newDoctorReferral = new DoctorReferral("Check up", Priority.NON_URGENT, LocalDateTime.of(2024, 10, 21, 10, 10), 1L, 3L, 2L, creationDate, createdBy);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/doctor-referral/create")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(newDoctorReferral)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        var createdDoctorReferral = objectMapper.readValue(content, DoctorReferral.class);
+
+        Assertions.assertNotNull(createdDoctorReferral.getId());
+
+        result = mockMvc.perform(MockMvcRequestBuilders.
+                        delete("/doctor-referral/{id}", createdDoctorReferral.getId()))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        content = result.getResponse().getContentAsString();
+
+        Assertions.assertTrue(content.contains("Doctor referral deleted successfully"));
     }
+
 
     @Test
     public void createDoctorReferralShouldNotCreateExisting() throws Exception {
+        var creationDate = LocalDateTime.now();
+        var createdBy = "Amina";
 
+        DoctorReferral newDoctorReferral = new DoctorReferral("Check up", Priority.NON_URGENT, LocalDateTime.of(2024, 5, 21, 10, 10), 1L, 1L, 2L, creationDate, createdBy);
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/doctor-referral/create")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(newDoctorReferral)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+
+        Assertions.assertTrue(content.contains("A doctor referral for this patient on the given date and time already exists."));
     }
 
     @Test
     public void createDoctorReferralShouldNotCreateWithoutReason() throws Exception {
+        var creationDate = LocalDateTime.now();
+        var createdBy = "Amina";
 
-    }
+        DoctorReferral newDoctorReferral = new DoctorReferral(null, Priority.NON_URGENT, LocalDateTime.of(2024, 5, 21, 10, 10), 1L, 1L, 2L, creationDate, createdBy);
 
-    @Test
-    public void deleteDoctorReferralShouldDeleteExisting() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .post("/doctor-referral/create")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(newDoctorReferral)))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
 
+        Assertions.assertTrue(content.contains("Reason can't be null!"));
     }
 
     @Test
     public void deleteDoctorReferralShouldReturnErrorForNonExisting() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
+                        delete("/doctor-referral/{id}", 20L))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
 
+        String content = result.getResponse().getContentAsString();
+
+        Assertions.assertTrue(content.contains("Doctor referral with that ID doesn't exist"));
     }
 }
