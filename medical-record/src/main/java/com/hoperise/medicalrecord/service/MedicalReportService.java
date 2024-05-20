@@ -36,11 +36,11 @@ public class MedicalReportService {
         return medicalReportRepository.save(newMedicalReport);
     }
 
-    public String deleteMedicalReport(Long id) {
+    public boolean deleteMedicalReport(Long id) {
         if (medicalReportRepository.existsById(id)) {
             medicalReportRepository.deleteById(id);
-            return "Medical report deleted successfully";
+            return true;
         }
-        return "Medical report with that ID doesn't exist";
+        return false;
     }
 }

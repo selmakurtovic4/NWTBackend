@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -33,9 +34,12 @@ public class MedicalReportController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody ResponseEntity<String> delete(@PathVariable Long id) {
-        return new ResponseEntity<>(medicalReportService.deleteMedicalReport(id), HttpStatus.OK);
-
+    public @ResponseBody ResponseEntity<?> delete(@PathVariable Long id) {
+        boolean deleted = medicalReportService.deleteMedicalReport(id);
+        if (deleted) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Medical report deleted successfully!"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Medical report with that ID doesn't exist!"));
     }
 
 }
