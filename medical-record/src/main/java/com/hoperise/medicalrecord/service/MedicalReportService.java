@@ -1,13 +1,10 @@
 package com.hoperise.medicalrecord.service;
 
+import com.hoperise.medicalrecord.model.DoctorReferral;
 import com.hoperise.medicalrecord.model.MedicalReport;
 import com.hoperise.medicalrecord.repository.MedicalReportRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,11 +19,15 @@ public class MedicalReportService {
     }
 
     public MedicalReport createMedicalReport(MedicalReport medicalReport) {
+        if (medicalReportRepository.existsByDateAndPatientId(medicalReport.getDate(), medicalReport.getPatientId())) {
+            return new MedicalReport();
+        }
+
         MedicalReport newMedicalReport = new MedicalReport();
         newMedicalReport.setDiagnosis(medicalReport.getDiagnosis());
-        newMedicalReport.setTreatment_plan(medicalReport.getTreatment_plan());
-        newMedicalReport.setTests_results(medicalReport.getTests_results());
-        newMedicalReport.setAdditional_notes(medicalReport.getAdditional_notes());
+        newMedicalReport.setTreatmentPlan(medicalReport.getTreatmentPlan());
+        newMedicalReport.setTestsResults(medicalReport.getTestsResults());
+        newMedicalReport.setAdditionalNotes(medicalReport.getAdditionalNotes());
         newMedicalReport.setDate(medicalReport.getDate());
         newMedicalReport.setPatientId(medicalReport.getPatientId());
         newMedicalReport.setDoctorId(medicalReport.getDoctorId());

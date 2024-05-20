@@ -1,8 +1,6 @@
 package com.hoperise.medicalrecord.controller;
 
 import com.hoperise.medicalrecord.model.MedicalReport;
-import com.hoperise.medicalrecord.repository.MedicalReportRepository;
-import com.hoperise.medicalrecord.service.DoctorReferralService;
 import com.hoperise.medicalrecord.service.MedicalReportService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,12 @@ public class MedicalReportController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody ResponseEntity<MedicalReport> create(@RequestBody @Valid MedicalReport medicalReport) {
-        return new ResponseEntity<>(medicalReportService.createMedicalReport(medicalReport), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> create(@RequestBody @Valid MedicalReport medicalReport) {
+        var createdReport = medicalReportService.createMedicalReport(medicalReport);
+        if (createdReport.getId() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "A medical report for this patient on the given date already exists."));
+        }
+        return new ResponseEntity<>(createdReport, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -41,5 +43,4 @@ public class MedicalReportController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Medical report with that ID doesn't exist!"));
     }
-
 }
