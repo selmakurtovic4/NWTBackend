@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -27,12 +28,20 @@ public class MedicalInformationController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody ResponseEntity<MedicalInformation> createMedicalInformation(@RequestBody @Valid MedicalInformation medicalInformation) {
-        return new ResponseEntity<>(medicalInformationService.createMedicalInformation(medicalInformation), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> createMedicalInformation(@RequestBody @Valid MedicalInformation medicalInformation) {
+        var createdInformation = medicalInformationService.createMedicalInformation(medicalInformation);
+        if (createdInformation.getId() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Medical information for this patient already exists!"));
+        }
+        return new ResponseEntity<>(createdInformation, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody ResponseEntity<String> deleteMedicalInformation(@PathVariable Long id) {
-        return new ResponseEntity<>(medicalInformationService.deleteMedicalInformation(id), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> deleteMedicalInformation(@PathVariable Long id) {
+        boolean deleted = medicalInformationService.deleteMedicalInformation(id);
+        if (deleted) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Medical information deleted successfully!"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Medical information with that ID doesn't exist!"));
     }
 }

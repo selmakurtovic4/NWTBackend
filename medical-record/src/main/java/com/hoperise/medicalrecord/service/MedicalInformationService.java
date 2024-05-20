@@ -19,7 +19,7 @@ public class MedicalInformationService {
 
     public MedicalInformation createMedicalInformation(MedicalInformation medicalInformation) {
         if (medicalInformationRepository.existsByPatientId(medicalInformation.getPatientId())) {
-            throw new RuntimeException("Medical information for this patient already exists!");
+            return new MedicalInformation();
         }
 
         MedicalInformation newMedicalInformation = new MedicalInformation();
@@ -36,11 +36,11 @@ public class MedicalInformationService {
         return medicalInformationRepository.save(newMedicalInformation);
     }
 
-    public String deleteMedicalInformation(Long id) {
+    public boolean deleteMedicalInformation(Long id) {
         if (medicalInformationRepository.existsById(id)) {
             medicalInformationRepository.deleteById(id);
-            return "Medical information deleted successfully";
+            return true;
         }
-        return "Medical information with that ID doesn't exist";
+        return false;
     }
 }
