@@ -124,14 +124,20 @@ public class DoctorReferralControllerTest {
         var allReferrals = doctorReferralRepository.findAll();
 
         var existingReferral = allReferrals.stream()
-                .findFirst()
-                .get();
+                .findFirst().isPresent() ?
+                allReferrals.stream().findFirst().get() : new DoctorReferral();
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/doctor-referral/all")).andExpect(status().is2xxSuccessful()).andReturn();
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                        .get("/doctor-referral/all/{id}", existingReferral.getId()))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
         String content = result.getResponse().getContentAsString();
-        var doctorReferrals = objectMapper.readValue(content, List.class);
+        var retrievedReferral = objectMapper.readValue(content, DoctorReferral.class);
 
-        Assertions.assertFalse(doctorReferrals.isEmpty());
+        Assertions.assertEquals(existingReferral.getId(), retrievedReferral.getId());
+        Assertions.assertEquals(existingReferral.getReferredDoctorId(), retrievedReferral.getReferredDoctorId());
+        Assertions.assertEquals(existingReferral.getPatientId(), retrievedReferral.getPatientId());
+        Assertions.assertEquals(existingReferral.getReferringDoctorId(), retrievedReferral.getReferringDoctorId());
     }
 
     @Test
@@ -153,13 +159,13 @@ public class DoctorReferralControllerTest {
         Assertions.assertNotNull(createdDoctorReferral.getId());
 
         result = mockMvc.perform(MockMvcRequestBuilders.
-                        delete("/doctor-referral/{id}", createdDoctorReferral.getId()))
+                        delete("/doctor-referral/delete/{id}", createdDoctorReferral.getId()))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
         content = result.getResponse().getContentAsString();
 
-        Assertions.assertTrue(content.contains("Doctor referral deleted successfully"));
+        Assertions.assertTrue(content.contains("Doctor referral deleted successfully!"));
     }
 
 
@@ -174,7 +180,7 @@ public class DoctorReferralControllerTest {
                         .post("/doctor-referral/create")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(newDoctorReferral)))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().is4xxClientError())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
 
@@ -192,7 +198,7 @@ public class DoctorReferralControllerTest {
                         .post("/doctor-referral/create")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(newDoctorReferral)))
-                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().is4xxClientError())
                 .andReturn();
         String content = result.getResponse().getContentAsString();
 
@@ -202,12 +208,12 @@ public class DoctorReferralControllerTest {
     @Test
     public void deleteDoctorReferralShouldReturnErrorForNonExisting() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.
-                        delete("/doctor-referral/{id}", 20L))
-                .andExpect(status().is2xxSuccessful())
+                        delete("/doctor-referral/delete/{id}", 20L))
+                .andExpect(status().is4xxClientError())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
 
-        Assertions.assertTrue(content.contains("Doctor referral with that ID doesn't exist"));
+        Assertions.assertTrue(content.contains("Doctor referral with that ID doesn't exist!"));
     }
 }
