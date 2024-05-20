@@ -36,7 +36,7 @@ public class DoctorReferralService {
 
     public DoctorReferral createDoctorReferral(DoctorReferral doctorReferral) {
         if (doctorReferralRepository.existsByDateAndPatientId(doctorReferral.getDate(), doctorReferral.getPatientId())) {
-            throw new RuntimeException("A doctor referral for this patient on the given date and time already exists.");
+            return new DoctorReferral();
         }
 
         DoctorReferral newDoctorReferral = new DoctorReferral();
@@ -52,11 +52,11 @@ public class DoctorReferralService {
         return doctorReferralRepository.save(newDoctorReferral);
     }
 
-    public String deleteDoctorReferral(Long id) {
+    public boolean deleteDoctorReferral(Long id) {
         if (doctorReferralRepository.existsById(id)) {
             doctorReferralRepository.deleteById(id);
-            return "Doctor referral deleted successfully";
+            return true;
         }
-        return "Doctor referral with that ID doesn't exist";
+        return false;
     }
 }

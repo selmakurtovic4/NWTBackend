@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,12 +53,20 @@ public class DoctorReferralController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody ResponseEntity<DoctorReferral> createDoctorReferral(@RequestBody @Valid DoctorReferral doctorReferral) {
-        return new ResponseEntity<>(doctorReferralService.createDoctorReferral(doctorReferral), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> createDoctorReferral(@RequestBody @Valid DoctorReferral doctorReferral) {
+        var createdReferral = doctorReferralService.createDoctorReferral(doctorReferral);
+        if(createdReferral.getId() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "A doctor referral for this patient on the given date and time already exists."));
+        }
+        return new ResponseEntity<>(createdReferral, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public @ResponseBody ResponseEntity<String> deleteDoctorReferral(@PathVariable Long id) {
-        return new ResponseEntity<>(doctorReferralService.deleteDoctorReferral(id), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> deleteDoctorReferral(@PathVariable Long id) {
+        boolean deleted = doctorReferralService.deleteDoctorReferral(id);
+        if (deleted) {
+            return ResponseEntity.ok(Collections.singletonMap("message", "Doctor referral deleted successfully!"));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Doctor referral with that ID doesn't exist!"));
     }
 }
