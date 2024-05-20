@@ -18,12 +18,12 @@ public class MedicalReport {
     private String diagnosis;
     @Column(name = "treatment_plan")
     @NotNull(message ="Treatment plan can't be null!")
-    private String treatment_plan;
+    private String treatmentPlan;
     @Column(name = "tests_results")
     @NotNull(message ="Tests results can't be null!")
-    private String tests_results;
+    private String testsResults;
     @Column(name = "additional_notes")
-    private String additional_notes;
+    private String additionalNotes;
     @Column(name = "date")
     @NotNull(message = "Date can't be null!")
     private LocalDate date;
@@ -48,11 +48,11 @@ public class MedicalReport {
     public MedicalReport() {
     }
 
-    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+    public MedicalReport(String diagnosis, String treatmentPlan, String testsResults, String additionalNotes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
         this.diagnosis = diagnosis;
-        this.treatment_plan = treatment_plan;
-        this.tests_results = tests_results;
-        this.additional_notes = additional_notes;
+        this.treatmentPlan = treatmentPlan;
+        this.testsResults = testsResults;
+        this.additionalNotes = additionalNotes;
         this.date = date;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -62,11 +62,11 @@ public class MedicalReport {
         this.modifiedBy = modifiedBy;
     }
 
-    public MedicalReport(String diagnosis, String treatment_plan, String tests_results, String additional_notes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
+    public MedicalReport(String diagnosis, String treatmentPlan, String testsResults, String additionalNotes, LocalDate date, Long patientId, Long doctorId, LocalDateTime created, String createdBy) {
         this.diagnosis = diagnosis;
-        this.treatment_plan = treatment_plan;
-        this.tests_results = tests_results;
-        this.additional_notes = additional_notes;
+        this.treatmentPlan = treatmentPlan;
+        this.testsResults = testsResults;
+        this.additionalNotes = additionalNotes;
         this.date = date;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -90,28 +90,28 @@ public class MedicalReport {
         this.diagnosis = diagnosis;
     }
 
-    public String getTreatment_plan() {
-        return treatment_plan;
+    public String getTreatmentPlan() {
+        return treatmentPlan;
     }
 
-    public void setTreatment_plan(String treatment_plan) {
-        this.treatment_plan = treatment_plan;
+    public void setTreatmentPlan(String treatmentPlan) {
+        this.treatmentPlan = treatmentPlan;
     }
 
-    public String getTests_results() {
-        return tests_results;
+    public String getTestsResults() {
+        return testsResults;
     }
 
-    public void setTests_results(String tests_results) {
-        this.tests_results = tests_results;
+    public void setTestsResults(String testsResults) {
+        this.testsResults = testsResults;
     }
 
-    public String getAdditional_notes() {
-        return additional_notes;
+    public String getAdditionalNotes() {
+        return additionalNotes;
     }
 
-    public void setAdditional_notes(String additional_notes) {
-        this.additional_notes = additional_notes;
+    public void setAdditionalNotes(String additionalNotes) {
+        this.additionalNotes = additionalNotes;
     }
 
     public LocalDate getDate() {
@@ -175,9 +175,9 @@ public class MedicalReport {
         return "MedicalReport{" +
                 "id=" + id +
                 ", diagnosis='" + diagnosis + '\'' +
-                ", treatment_plan='" + treatment_plan + '\'' +
-                ", tests_results='" + tests_results + '\'' +
-                ", additional_notes='" + additional_notes + '\'' +
+                ", treatment_plan='" + treatmentPlan + '\'' +
+                ", tests_results='" + testsResults + '\'' +
+                ", additional_notes='" + additionalNotes + '\'' +
                 ", report_date=" + date +
                 ", patientId=" + patientId +
                 ", doctorId=" + doctorId +
