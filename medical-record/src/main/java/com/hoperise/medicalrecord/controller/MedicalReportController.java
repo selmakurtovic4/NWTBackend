@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/medical-report")
@@ -24,6 +25,11 @@ public class MedicalReportController {
     @GetMapping(path = "/all")
     public @ResponseBody ResponseEntity<List<MedicalReport>> getAllMedicalReports() {
         return new ResponseEntity<>(medicalReportService.getAllMedicalReports(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/all/{id}")
+    public @ResponseBody ResponseEntity<Optional<MedicalReport>> getMedicalReport(@PathVariable Long id) {
+        return new ResponseEntity<>(medicalReportService.getMedicalReport(id), HttpStatus.OK);
     }
 
     @PostMapping("/create")

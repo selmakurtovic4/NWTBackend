@@ -1,6 +1,5 @@
 package com.hoperise.medicalrecord.service;
 
-import com.hoperise.medicalrecord.model.DoctorReferral;
 import com.hoperise.medicalrecord.model.MedicalReport;
 import com.hoperise.medicalrecord.repository.MedicalReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MedicalReportService {
@@ -16,6 +16,10 @@ public class MedicalReportService {
 
     public List<MedicalReport> getAllMedicalReports() {
         return medicalReportRepository.findAll();
+    }
+
+    public Optional<MedicalReport> getMedicalReport(Long id) {
+        return medicalReportRepository.findById(id);
     }
 
     public MedicalReport createMedicalReport(MedicalReport medicalReport) {
