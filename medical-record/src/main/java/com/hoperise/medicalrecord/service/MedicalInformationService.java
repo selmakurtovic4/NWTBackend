@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MedicalInformationService {
@@ -15,6 +16,10 @@ public class MedicalInformationService {
 
     public List<MedicalInformation> getAllMedicalInformation() {
         return medicalInformationRepository.findAll();
+    }
+
+    public Optional<MedicalInformation> getMedicalInformation(Long id) {
+        return medicalInformationRepository.findById(id);
     }
 
     public MedicalInformation createMedicalInformation(MedicalInformation medicalInformation) {
