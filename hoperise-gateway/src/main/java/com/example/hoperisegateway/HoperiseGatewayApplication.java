@@ -13,17 +13,20 @@ import org.springframework.context.annotation.Configuration;
 @EnableDiscoveryClient
 public class HoperiseGatewayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HoperiseGatewayApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HoperiseGatewayApplication.class, args);
+    }
 
-	@Bean
-	@LoadBalanced
-	public RouteLocator test(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route("appointmentService", p -> p
-						.path("/appointment/**")
-						.uri("lb://appointment"))
-				.build();
-	}
+    @Bean
+    @LoadBalanced
+    public RouteLocator test(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("appointmentService", p -> p
+                        .path("/appointment/**")
+                        .uri("lb://appointment"))
+                .route("medicalRecordService", p -> p
+                        .path("/medical-record/**")
+                        .uri("lb://medical-record"))
+                .build();
+    }
 }
