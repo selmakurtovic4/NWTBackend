@@ -4,7 +4,6 @@ import com.hoperise.appointment.model.appointment.Appointment;
 import com.hoperise.appointment.service.AppointmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,5 +60,6 @@ public class AppointmentController {
         var appointments = appointmentService.getPatientAppointments(patient_id);
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
+
 
 }
