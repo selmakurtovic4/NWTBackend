@@ -19,13 +19,13 @@ public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> errorResponse = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            errorResponse.put(fieldName, errorMessage);
         });
-        return errors;
+        return errorResponse;
     }
     @ExceptionHandler(EntityNotFoundException.class)
     private ResponseEntity<Map<String, String>> handleEntityNotFound(EntityNotFoundException ex) {

@@ -3,13 +3,16 @@ package com.hoperise.appointment.controller;
 import com.hoperise.appointment.model.appointment.Appointment;
 import com.hoperise.appointment.service.AppointmentService;
 import jakarta.validation.Valid;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RefreshScope
@@ -18,6 +21,9 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/all")
     public @ResponseBody ResponseEntity<List<Appointment>> getAllAppointments() {
@@ -45,7 +51,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<String> deleteAppointment(@PathVariable Long id) {
+    public @ResponseBody ResponseEntity<Map<String, String>> deleteAppointment(@PathVariable Long id) {
         return new ResponseEntity<>(appointmentService.deleteAppointment(id), HttpStatus.OK);
     }
 
@@ -61,5 +67,12 @@ public class AppointmentController {
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
+    @GetMapping("/getAppsByPatientLastName/{lastName}")
+    public ResponseEntity<List<Appointment>> getPatientAppointmentsByLastName(@PathVariable String lastName){
+        String patientIdUrl = "http://patient/patient/getIdByLastName/" + lastName;
+        Long patientId = restTemplate.getForObject(patientIdUrl, Long.class);
 
+        List<Appointment> appointments = appointmentService.getPatientAppointments(patientId);
+        return ResponseEntity.ok(appointments);
+    }
 }

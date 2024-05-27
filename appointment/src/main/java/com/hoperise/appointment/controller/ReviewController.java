@@ -46,17 +46,13 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<String> deleteReview(@PathVariable Long id) {
+    public @ResponseBody ResponseEntity<Map<String, String>> deleteReview(@PathVariable Long id) {
         return new ResponseEntity<>(reviewService.deleteReview(id), HttpStatus.OK);
     }
 
     @GetMapping("/getDoctorReviews/{doctorId}")
-    public @ResponseBody ResponseEntity<?> getDoctorReviews(@PathVariable Long doctorId) {
+    public @ResponseBody ResponseEntity<List<Review>> getDoctorReviews(@PathVariable Long doctorId) {
         List<Review> doctorReviews = reviewService.getDoctorReviews(doctorId);
-
-        if(doctorReviews.isEmpty()) {
-            return ResponseEntity.ok(Map.of("message", "Doctor has no reviews."));
-        }
         return new ResponseEntity<>(doctorReviews, HttpStatus.OK);
     }
 }

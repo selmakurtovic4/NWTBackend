@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AppointmentService {
@@ -19,7 +21,8 @@ public class AppointmentService {
     }
 
     public Appointment getAppointment(Long id) {
-        return appointmentRepository.findById(id).get();
+        return appointmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " not found"));
     }
 
     public Appointment addAppointment(Appointment appointment) {
@@ -38,31 +41,41 @@ public class AppointmentService {
     }
 
     public Appointment updateAppointment(Appointment appointment, Long id) {
-        var exception = new EntityNotFoundException("Appointment with id " + id + " does not exist!");
-        Appointment newAppointment = appointmentRepository.findById(id).orElseThrow(()->exception);
-        newAppointment.setDate(appointment.getDate());
-        newAppointment.setTime(appointment.getTime());
-        newAppointment.setStatus(appointment.getStatus());
-        newAppointment.setDoctorId(appointment.getDoctorId());
-        newAppointment.setPatientId(appointment.getPatientId());
-        newAppointment.setModified(LocalDateTime.now());
+        Appointment existingAppointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " does not exist"));
+
+        existingAppointment.setDate(appointment.getDate());
+        existingAppointment.setTime(appointment.getTime());
+        existingAppointment.setStatus(appointment.getStatus());
+        existingAppointment.setDoctorId(appointment.getDoctorId());
+        existingAppointment.setPatientId(appointment.getPatientId());
+        existingAppointment.setModified(LocalDateTime.now());
         //
-        newAppointment.setModifiedBy("ModifiedBy");
+        existingAppointment.setModifiedBy("ModifiedBy");
         //
-        return appointmentRepository.save(newAppointment);
+        return appointmentRepository.save(existingAppointment);
     }
 
-    public String deleteAppointment(Long id) {
-        var exception = new EntityNotFoundException("Appointment with id " + id + " does not exist!");
-        appointmentRepository.findById(id).orElseThrow(() -> exception);
+    public Map<String, String> deleteAppointment(Long id) {
+        appointmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " does not exist"));
         appointmentRepository.deleteById(id);
-        return "Appointment with id " + id + " is successfully deleted!";
+        return Collections.singletonMap("message", "Appointment with id " + id + " is successfully deleted!");
     }
+
     public List<Appointment> getDoctorAppointments(Long doctorId) {
-        return appointmentRepository.findByDoctorId(doctorId);
+        List<Appointment> appointments = appointmentRepository.findByDoctorId(doctorId);
+        if (appointments.isEmpty()) {
+            throw new EntityNotFoundException("No appointments found for doctor with ID " + doctorId);
+        }
+        return appointments;
     }
 
     public List<Appointment> getPatientAppointments(Long patientId) {
-        return appointmentRepository.findByPatientId(patientId);
+        List<Appointment> appointments = appointmentRepository.findByPatientId(patientId);
+        if (appointments.isEmpty()) {
+            throw new EntityNotFoundException("No appointments found for patient with ID " + patientId);
+        }
+        return appointments;
     }
 }

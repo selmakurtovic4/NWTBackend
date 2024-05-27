@@ -1,29 +1,49 @@
 package com.hoperise.appointment;
 
 import com.hoperise.appointment.exception.EventInterceptor;
+import com.hoperise.appointment.model.Review;
+import com.hoperise.appointment.model.appointment.Appointment;
+import com.hoperise.appointment.model.appointment.AppointmentStatus;
+import com.hoperise.appointment.repository.AppointmentRepository;
+import com.hoperise.appointment.repository.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class AppointmentApplication {
-//	@Autowired
-//	AppointmentRepository appointmentRepository;
-//
-//	@Autowired
-//	ReviewRepository reviewRepository;
+public class AppointmentApplication implements CommandLineRunner {
+	@Autowired
+	AppointmentRepository appointmentRepository;
+
+	@Autowired
+	ReviewRepository reviewRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AppointmentApplication.class, args);
 	}
 
+//	@Bean
+//	@LoadBalanced
+//	public RestTemplate restTemplate() {
+//		return new RestTemplate();
+//	}
+
 	@Bean
 	public EventInterceptor customInterceptor() {return new EventInterceptor(); }
 
-//	@Override
-//	public void run(String... arg) {
+	@Override
+	public void run(String... arg) {
 //		appointmentRepository.deleteAll();
 //		reviewRepository.deleteAll();
 //
@@ -48,6 +68,8 @@ public class AppointmentApplication {
 //		reviews.add(new Review(2, "Disappointed with the service.", appointments.get(5)));
 //
 //		reviewRepository.saveAll(reviews);
-//	}
+	}
+
+
 }
 

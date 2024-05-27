@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReviewService {
@@ -24,8 +26,8 @@ public class ReviewService {
     }
 
     public Review getReview(Long id) {
-        var exception = new EntityNotFoundException("Review with id " + id + " does not exist!");
-        return reviewRepository.findById(id).orElseThrow(() -> exception);
+        return reviewRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Review with id " + id + " does not exist!"));
     }
 
     public Review addReview(Review review, Long appointmentId) {
@@ -41,21 +43,27 @@ public class ReviewService {
     }
 
     public Review updateReview(Review review, Long id) {
-        var exception = new EntityNotFoundException("Review with id " + id + " does not exist!");
-        Review newReview = reviewRepository.findById(id).orElseThrow(() -> exception);
-        newReview.setRating(review.getRating());
-        newReview.setComment(review.getComment());
-        return reviewRepository.save(newReview);
+        Review existingReview = reviewRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Review with id " + id + " does not exist!"));
+
+        existingReview.setRating(review.getRating());
+        existingReview.setComment(review.getComment());
+        return reviewRepository.save(existingReview);
     }
 
-    public String deleteReview(Long id) {
-        var exception = new EntityNotFoundException("Review with id " + id + " does not exist!");
-        reviewRepository.findById(id).orElseThrow(() -> exception);
+    public Map<String, String> deleteReview(Long id) {
+        reviewRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Review with id " + id + " does not exist!"));
         reviewRepository.deleteById(id);
-        return "Review with id " + id + " is successfully deleted!";
+
+        return Collections.singletonMap("message", "Review with id " + id + " is successfully deleted!");
     }
 
     public List<Review> getDoctorReviews(Long doctorId) {
-        return reviewRepository.findAllByAppointment_DoctorId(doctorId);
+        List<Review> reviews = reviewRepository.findAllByAppointment_DoctorId(doctorId);
+        if (reviews.isEmpty()) {
+            throw new EntityNotFoundException("No reviews found for doctor with ID " + doctorId);
+        }
+        return reviews;
     }
 }
