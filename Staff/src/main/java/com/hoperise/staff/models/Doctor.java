@@ -3,7 +3,7 @@ package com.hoperise.staff.models;
 import jakarta.persistence.*;
 
 @Entity
-public class MedicalStaff {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
