@@ -1,18 +1,14 @@
 package com.hoperise.appointment;
 
-import com.hoperise.appointment.repository.AppointmentRepository;
-import com.hoperise.appointment.repository.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import com.hoperise.appointment.exception.EventInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class AppointmentApplication implements CommandLineRunner {
+public class AppointmentApplication {
 //	@Autowired
 //	AppointmentRepository appointmentRepository;
 //
@@ -23,8 +19,11 @@ public class AppointmentApplication implements CommandLineRunner {
 		SpringApplication.run(AppointmentApplication.class, args);
 	}
 
-	@Override
-	public void run(String... arg) {
+	@Bean
+	public EventInterceptor customInterceptor() {return new EventInterceptor(); }
+
+//	@Override
+//	public void run(String... arg) {
 //		appointmentRepository.deleteAll();
 //		reviewRepository.deleteAll();
 //
@@ -49,6 +48,6 @@ public class AppointmentApplication implements CommandLineRunner {
 //		reviews.add(new Review(2, "Disappointed with the service.", appointments.get(5)));
 //
 //		reviewRepository.saveAll(reviews);
-	}
+//	}
 }
 
