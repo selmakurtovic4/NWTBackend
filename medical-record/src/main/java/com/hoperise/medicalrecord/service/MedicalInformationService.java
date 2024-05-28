@@ -30,8 +30,8 @@ public class MedicalInformationService {
         MedicalInformation newMedicalInformation = new MedicalInformation();
         newMedicalInformation.setAllergies(medicalInformation.getAllergies());
         newMedicalInformation.setMedications(medicalInformation.getMedications());
-        newMedicalInformation.setBlood_type(medicalInformation.getBlood_type());
-        newMedicalInformation.setFamily_history(medicalInformation.getFamily_history());
+        newMedicalInformation.setBloodType(medicalInformation.getBloodType());
+        newMedicalInformation.setFamilyHistory(medicalInformation.getFamilyHistory());
         newMedicalInformation.setHeight(medicalInformation.getHeight());
         newMedicalInformation.setWeight(medicalInformation.getWeight());
         newMedicalInformation.setPatientId(medicalInformation.getPatientId());
