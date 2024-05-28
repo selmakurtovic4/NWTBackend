@@ -32,6 +32,11 @@ public class MedicalReportController {
         return new ResponseEntity<>(medicalReportService.getMedicalReport(id), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/all/patient/{id}")
+    public @ResponseBody ResponseEntity<Optional<MedicalReport>> getMedicalReportsForPatient(@PathVariable Long id) {
+        return new ResponseEntity<>(medicalReportService.getMedicalReportsForPatient(id), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public @ResponseBody ResponseEntity<?> create(@RequestBody @Valid MedicalReport medicalReport) {
         var createdReport = medicalReportService.createMedicalReport(medicalReport);

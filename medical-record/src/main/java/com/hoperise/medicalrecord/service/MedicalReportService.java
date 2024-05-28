@@ -22,6 +22,10 @@ public class MedicalReportService {
         return medicalReportRepository.findById(id);
     }
 
+    public Optional<MedicalReport> getMedicalReportsForPatient(Long id) {
+        return medicalReportRepository.findByPatientId(id);
+    }
+
     public MedicalReport createMedicalReport(MedicalReport medicalReport) {
         if (medicalReportRepository.existsByDateAndPatientId(medicalReport.getDate(), medicalReport.getPatientId())) {
             return new MedicalReport();
