@@ -1,7 +1,10 @@
 package com.hoperise.staff.repositories;
 
-import com.hoperise.staff.models.MedicalStaff;
+import com.hoperise.staff.models.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StaffRepository extends JpaRepository<MedicalStaff, Long> {
+import java.util.List;
+
+public interface StaffRepository extends JpaRepository<Doctor, Long> {
+    List<Doctor> findByDepartmentId(Long departmentId);
 }

@@ -21,6 +21,7 @@ public class AppointmentService {
     public Appointment getAppointment(Long id) {
         return appointmentRepository.findById(id).get();
     }
+
     public Appointment addAppointment(Appointment appointment) {
         Appointment newAppointment = new Appointment();
         newAppointment.setDate(appointment.getDate());

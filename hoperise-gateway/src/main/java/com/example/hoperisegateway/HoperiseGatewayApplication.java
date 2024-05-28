@@ -27,6 +27,9 @@ public class HoperiseGatewayApplication {
                 .route("medicalRecordService", p -> p
                         .path("/medical-record/**")
                         .uri("lb://medical-record"))
+                .route("staffService", p -> p
+                        .path("/Staff/**")
+                        .uri("lb://Staff"))
                 .build();
     }
 }
