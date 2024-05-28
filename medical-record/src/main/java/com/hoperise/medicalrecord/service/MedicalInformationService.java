@@ -22,6 +22,10 @@ public class MedicalInformationService {
         return medicalInformationRepository.findById(id);
     }
 
+    public Optional<MedicalInformation> getMedicalInformationForPatient(Long id) {
+        return medicalInformationRepository.findByPatientId(id);
+    }
+
     public MedicalInformation createMedicalInformation(MedicalInformation medicalInformation) {
         if (medicalInformationRepository.existsByPatientId(medicalInformation.getPatientId())) {
             return new MedicalInformation();

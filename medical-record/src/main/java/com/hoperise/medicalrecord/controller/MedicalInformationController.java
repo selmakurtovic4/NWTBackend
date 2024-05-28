@@ -29,8 +29,13 @@ public class MedicalInformationController {
     }
 
     @GetMapping(path = "/all/{id}")
-    public @ResponseBody ResponseEntity<Optional<MedicalInformation>> getMedicalReport(@PathVariable Long id) {
+    public @ResponseBody ResponseEntity<Optional<MedicalInformation>> getMedicalInformation(@PathVariable Long id) {
         return new ResponseEntity<>(medicalInformationService.getMedicalInformation(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/patient/{id}")
+    public @ResponseBody ResponseEntity<Optional<MedicalInformation>> getMedicalInformationForPatient(@PathVariable Long id) {
+        return new ResponseEntity<>(medicalInformationService.getMedicalInformationForPatient(id), HttpStatus.OK);
     }
 
     @PostMapping("/create")
