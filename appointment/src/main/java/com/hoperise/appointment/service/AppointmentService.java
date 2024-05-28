@@ -1,6 +1,7 @@
 package com.hoperise.appointment.service;
 
 import com.hoperise.appointment.model.appointment.Appointment;
+import com.hoperise.appointment.model.appointment.AppointmentRequest;
 import com.hoperise.appointment.repository.AppointmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " not found"));
     }
 
-    public Appointment addAppointment(Appointment appointment) {
+    public Appointment addAppointment(AppointmentRequest appointment) {
         Appointment newAppointment = new Appointment();
         newAppointment.setDate(appointment.getDate());
         newAppointment.setTime(appointment.getTime());
@@ -40,7 +41,7 @@ public class AppointmentService {
         return newAppointment;
     }
 
-    public Appointment updateAppointment(Appointment appointment, Long id) {
+    public Appointment updateAppointment(AppointmentRequest appointment, Long id) {
         Appointment existingAppointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " does not exist"));
 

@@ -1,6 +1,7 @@
 package com.hoperise.appointment.controller;
 
 import com.hoperise.appointment.model.appointment.Appointment;
+import com.hoperise.appointment.model.appointment.AppointmentRequest;
 import com.hoperise.appointment.service.AppointmentService;
 import jakarta.validation.Valid;
 import org.checkerframework.checker.units.qual.A;
@@ -39,13 +40,13 @@ public class AppointmentController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody ResponseEntity<Appointment> addAppointment(@Valid @RequestBody Appointment appointment) {
+    public @ResponseBody ResponseEntity<Appointment> addAppointment(@Valid @RequestBody AppointmentRequest appointment) {
         var newAppointment = appointmentService.addAppointment(appointment);
         return new ResponseEntity<>(newAppointment, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public @ResponseBody ResponseEntity<Appointment> updateAppointment(@Valid @RequestBody Appointment appointment, @PathVariable Long id) {
+    public @ResponseBody ResponseEntity<Appointment> updateAppointment(@Valid @RequestBody AppointmentRequest appointment, @PathVariable Long id) {
         var newAppointment = appointmentService.updateAppointment(appointment, id);
         return new ResponseEntity<>(newAppointment, HttpStatus.CREATED);
     }
