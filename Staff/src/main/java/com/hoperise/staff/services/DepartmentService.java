@@ -22,6 +22,12 @@ public class DepartmentService implements IDepartmentService{
     public Department getDepartmentById(long id) {
         return departmentRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public Department getDepartmentByName(String name){
+        return departmentRepository.findByName(name);
+
+    }
     @Override
     public void createDepartment(DepartmentDTO departmentDTO) {
         Department department=new Department(departmentDTO.getName());

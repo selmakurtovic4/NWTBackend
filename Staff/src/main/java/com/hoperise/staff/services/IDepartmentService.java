@@ -14,4 +14,5 @@ public interface IDepartmentService {
     void createDepartment(DepartmentDTO departmentDTO);
 
     List<DepartmentDTO> getAllDepartments();
+    Department getDepartmentByName(String name);
 }

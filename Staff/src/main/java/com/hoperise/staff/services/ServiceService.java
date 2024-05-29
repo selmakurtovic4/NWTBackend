@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ServiceService implements IServiceService {
+public class ServiceService {
 
 
     @Autowired
@@ -25,12 +25,12 @@ public class ServiceService implements IServiceService {
         this.departmentRepository=departmentRepository;
     }
 
-    @Override
-    public MedicalService createService(MedicalService service) {
-        return null;
+
+    public void createService(MedicalService service) {
+        serviceRepository.save(service);
     }
 
-    @Override
+
     public ServiceDTO getServiceById(long id) {
         Optional<MedicalService> serviceOptional = serviceRepository.findById(id);
         if (serviceOptional.isPresent()) {
@@ -43,21 +43,16 @@ public class ServiceService implements IServiceService {
         return null;
     }
 
-    @Override
-    public MedicalService updateService(MedicalService service) {
-        return null;
-    }
 
-
-    @Override
     public void deleteService(long id) {
         serviceRepository.deleteById(id);
     }
 
-    @Override
-    public List<MedicalService> getServicesByDepartmentId(long departmentId) {
-        return null;
+    public MedicalService getServicesByDepartmentId(int departmentId) {
+        return serviceRepository.findByDepartmentId(departmentId);
     }
-
+    public MedicalService findByName(String name){
+        return serviceRepository.findByName(name);
+    }
 
 }
