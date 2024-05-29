@@ -1,4 +1,4 @@
-package com.hoperise.staff.exceptions;
+package com.hoperise.staff.utils;
 
 import com.hoperise.proto.EventRequest;
 import com.hoperise.proto.EventResponse;

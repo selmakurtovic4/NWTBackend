@@ -1,6 +1,6 @@
 package com.hoperise.staff.conf;
 
-import com.hoperise.staff.exceptions.EventInterceptor;
+import com.hoperise.staff.utils.EventInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

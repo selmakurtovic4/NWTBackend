@@ -1,6 +1,6 @@
 package com.hoperise.staff;
 
-import com.hoperise.staff.exceptions.EventInterceptor;
+import com.hoperise.staff.utils.EventInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
