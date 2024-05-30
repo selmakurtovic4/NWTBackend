@@ -39,6 +39,11 @@ public class PatientController {
         return  new ResponseEntity<>(patient, HttpStatus.OK);
     }
 
+    @GetMapping("/check/{id}")
+    public @ResponseBody ResponseEntity<Boolean> checkIfExists(@PathVariable Long id) {
+        return  new ResponseEntity<>(patientService.checkIfExists(id), HttpStatus.OK);
+    }
+
     @GetMapping("/getIdByLastName/{lastName}")
     public Long getIdByLastName(@PathVariable String lastName) {
         Long id = patientService.getPatientsByLastName(lastName);
