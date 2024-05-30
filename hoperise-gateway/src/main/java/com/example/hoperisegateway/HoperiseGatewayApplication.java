@@ -19,20 +19,15 @@ public class HoperiseGatewayApplication {
 
     @Bean
     @LoadBalanced
-    public RouteLocator test(RouteLocatorBuilder builder) {
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-//                .route("appointmentService", p -> p
-//                        .path("/appointment/**")
-//                        .uri("lb://appointment"))
-//                .route("appointmentServiceReview", p -> p
-//                        .path("/review/**")
-//                        .uri("lb://appointment"))
                 .route("appointmentService", r -> r
                         .path("/appointment/**")
                         .filters(f -> f.removeRequestHeader("Cookie").stripPrefix(1))
                         .uri("lb://appointment"))
                 .route("medicalRecordService", p -> p
                         .path("/medical-record/**")
+                        .filters(f -> f.removeRequestHeader("Cookie").stripPrefix(1))
                         .uri("lb://medical-record"))
                 .route("patientService", p -> p
                         .path("/patient/**")
