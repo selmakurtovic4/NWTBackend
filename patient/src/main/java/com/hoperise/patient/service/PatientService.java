@@ -30,6 +30,8 @@ public class PatientService {
         return patientRepository.findById(id).get();
     }
 
+    public boolean checkIfExists(Long id) { return patientRepository.findById(id).isPresent(); }
+
     public Patient createPatient(Patient patient) {
         if (patientRepository.existsById(patient.getId())) {
             throw new RuntimeException("A patient with this ID already exists.");

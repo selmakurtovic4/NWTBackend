@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,9 @@ public class MedicalInformationController {
 
     @Autowired
     private final MedicalInformationService medicalInformationService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public MedicalInformationController(MedicalInformationService medicalInformationService) {
         this.medicalInformationService = medicalInformationService;
@@ -40,6 +44,13 @@ public class MedicalInformationController {
 
     @PostMapping("/create")
     public @ResponseBody ResponseEntity<?> createMedicalInformation(@RequestBody @Valid MedicalInformation medicalInformation) {
+        String patientIdUrl = "http://patient/patient/check/" + medicalInformation.getPatientId();
+        boolean exists = Boolean.TRUE.equals(restTemplate.getForObject(patientIdUrl, Boolean.class));
+
+        if(!exists) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "This patient doesn't exist!"));
+        }
+
         var createdInformation = medicalInformationService.createMedicalInformation(medicalInformation);
         if (createdInformation.getId() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("message", "Medical information for this patient already exists!"));
