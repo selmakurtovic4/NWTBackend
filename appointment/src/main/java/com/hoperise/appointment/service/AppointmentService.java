@@ -61,7 +61,7 @@ public class AppointmentService {
         appointmentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + id + " does not exist"));
         appointmentRepository.deleteById(id);
-        return Collections.singletonMap("message", "Appointment with id " + id + " is successfully deleted!");
+        return Collections.singletonMap("message", "Appointment with ID " + id + " is successfully deleted!");
     }
 
     public List<Appointment> getDoctorAppointments(Long doctorId) {

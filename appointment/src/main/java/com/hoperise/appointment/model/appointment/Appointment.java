@@ -2,15 +2,13 @@ package com.hoperise.appointment.model.appointment;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hoperise.appointment.model.Review;
+import com.hoperise.appointment.model.review.Review;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "appointment")

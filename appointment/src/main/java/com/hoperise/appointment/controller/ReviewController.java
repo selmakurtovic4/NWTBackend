@@ -1,6 +1,7 @@
 package com.hoperise.appointment.controller;
 
-import com.hoperise.appointment.model.Review;
+import com.hoperise.appointment.model.review.Review;
+import com.hoperise.appointment.model.review.ReviewRequest;
 import com.hoperise.appointment.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,13 @@ public class ReviewController {
 
     @PostMapping("/add/{appointmentId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody ResponseEntity<Review> addReview(@Valid @RequestBody Review review, @PathVariable Long appointmentId) {
+    public @ResponseBody ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest review, @PathVariable Long appointmentId) {
         var newReview = reviewService.addReview(review, appointmentId);
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public @ResponseBody ResponseEntity<Review> updateReview(@Valid @RequestBody Review review, @PathVariable Long id) {
+    public @ResponseBody ResponseEntity<Review> updateReview(@Valid @RequestBody ReviewRequest review, @PathVariable Long id) {
         var newReview = reviewService.updateReview(review, id);
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }

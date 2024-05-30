@@ -1,4 +1,4 @@
-package com.hoperise.appointment.model;
+package com.hoperise.appointment.model.review;
 
 import com.hoperise.appointment.model.appointment.Appointment;
 import jakarta.persistence.*;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.hoperise.appointment.conf.JPAConfig;
-import com.hoperise.appointment.model.Review;
+import com.hoperise.appointment.model.review.Review;
 import com.hoperise.appointment.model.appointment.Appointment;
 import com.hoperise.appointment.model.appointment.AppointmentStatus;
 import com.hoperise.appointment.repository.AppointmentRepository;
