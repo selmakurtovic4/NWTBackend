@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -20,9 +19,9 @@ public class MedicalInformation {
     @Column(name = "medications")
     private String medications;
     @Column(name = "blood_type")
-    private String blood_type;
+    private String bloodType;
     @Column(name = "family_history")
-    private String family_history;
+    private String familyHistory;
     @Column(name = "height")
     @DecimalMin(value = "0.0", message = "Height must be greater than or equal to 0!")
     @DecimalMax(value = "300.0", message = "Height must be less than or equal to 300!")
@@ -50,11 +49,11 @@ public class MedicalInformation {
     public MedicalInformation() {
     }
 
-    public MedicalInformation(String allergies, String medications, String blood_type, String family_history, double height, double weight, Long patientId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+    public MedicalInformation(String allergies, String medications, String bloodType, String familyHistory, double height, double weight, Long patientId, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
         this.allergies = allergies;
         this.medications = medications;
-        this.blood_type = blood_type;
-        this.family_history = family_history;
+        this.bloodType = bloodType;
+        this.familyHistory = familyHistory;
         this.height = height;
         this.weight = weight;
         this.patientId = patientId;
@@ -64,11 +63,11 @@ public class MedicalInformation {
         this.modifiedBy = modifiedBy;
     }
 
-    public MedicalInformation(String allergies, String medications, String blood_type, String family_history, double height, double weight, Long patientId, LocalDateTime created, String createdBy) {
+    public MedicalInformation(String allergies, String medications, String bloodType, String familyHistory, double height, double weight, Long patientId, LocalDateTime created, String createdBy) {
         this.allergies = allergies;
         this.medications = medications;
-        this.blood_type = blood_type;
-        this.family_history = family_history;
+        this.bloodType = bloodType;
+        this.familyHistory = familyHistory;
         this.height = height;
         this.weight = weight;
         this.patientId = patientId;
@@ -140,20 +139,20 @@ public class MedicalInformation {
         this.medications = medications;
     }
 
-    public String getBlood_type() {
-        return blood_type;
+    public String getBloodType() {
+        return bloodType;
     }
 
-    public void setBlood_type(String blood_type) {
-        this.blood_type = blood_type;
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
     }
 
-    public String getFamily_history() {
-        return family_history;
+    public String getFamilyHistory() {
+        return familyHistory;
     }
 
-    public void setFamily_history(String family_history) {
-        this.family_history = family_history;
+    public void setFamilyHistory(String familyHistory) {
+        this.familyHistory = familyHistory;
     }
 
     public double getHeight() {
@@ -178,8 +177,8 @@ public class MedicalInformation {
                 "id=" + id +
                 ", allergies='" + allergies + '\'' +
                 ", medications='" + medications + '\'' +
-                ", blood_type='" + blood_type + '\'' +
-                ", family_history='" + family_history + '\'' +
+                ", blood_type='" + bloodType + '\'' +
+                ", family_history='" + familyHistory + '\'' +
                 ", height=" + height +
                 ", weight=" + weight +
                 ", patientId=" + patientId +

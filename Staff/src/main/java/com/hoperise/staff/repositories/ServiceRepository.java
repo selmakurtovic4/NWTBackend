@@ -5,4 +5,6 @@ import com.hoperise.staff.models.MedicalService; // Assuming Service model is de
 
 public interface ServiceRepository extends JpaRepository<MedicalService, Long> {
 
+    MedicalService findByDepartmentId(int id);
+    MedicalService findByName(String name);
 }

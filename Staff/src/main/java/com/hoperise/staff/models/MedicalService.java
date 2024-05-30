@@ -9,6 +9,22 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class MedicalService {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

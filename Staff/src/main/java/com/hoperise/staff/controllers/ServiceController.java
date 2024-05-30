@@ -41,16 +41,6 @@ public class ServiceController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateService(@RequestBody MedicalService service) {
-        MedicalService updatedService = serviceService.updateService(service);
-        if (updatedService != null) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteService(@PathVariable long id) {
         serviceService.deleteService(id);

@@ -1,101 +1,117 @@
 package com.hoperise.staff;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoperise.staff.controllers.ServiceController;
 import com.hoperise.staff.dtos.ServiceDTO;
+import com.hoperise.staff.models.Department;
 import com.hoperise.staff.models.MedicalService;
 import com.hoperise.staff.services.IServiceService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@ExtendWith({SpringExtension.class, MockitoExtension.class})
-@WebMvcTest(ServiceController.class)
-@AutoConfigureMockMvc
 public class ServiceControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private IServiceService serviceService;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @InjectMocks
+    private ServiceController serviceController;
 
-    @Test
-    public void getServiceById_ReturnsServiceDTO_WhenServiceExists() throws Exception {
-        // Mocking service response
-        ServiceDTO mockServiceDTO = new ServiceDTO(1, "Test Service", 100, "Test Department");
-        when(serviceService.getServiceById(1L)).thenReturn(mockServiceDTO);
-
-        // Performing HTTP GET request and verifying the response
-        mockMvc.perform(get("/service/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("Test Service"))
-                .andExpect(jsonPath("$.price").value(100.0))
-                .andExpect(jsonPath("$.departmentName").value("Test Department"));
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void createService_ReturnsCreated() throws Exception {
-        // Mocking service response
-        MedicalService medicalService = new MedicalService();
-        when(serviceService.createService(any(MedicalService.class))).thenReturn(medicalService);
+    public void testGetService_ExistingService() {
+        long id = 1L;
+        ServiceDTO serviceDTO = new ServiceDTO((int) id, "Test Service", 100, "Test Department");
 
-        // Performing HTTP POST request and verifying the response
-        mockMvc.perform(post("/service")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(medicalService)))
-                .andExpect(status().isOk());
+        when(serviceService.getServiceById(id)).thenReturn(serviceDTO);
+
+        ResponseEntity<ServiceDTO> response = serviceController.getService(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(serviceDTO, response.getBody());
     }
 
     @Test
-    public void updateService_ReturnsOk() throws Exception {
-        // Mocking service response
-        MedicalService medicalService = new MedicalService();
-        when(serviceService.updateService(any(MedicalService.class))).thenReturn(medicalService);
+    public void testGetService_NonExistingService() {
+        long id = 1L;
 
-        // Performing HTTP PUT request and verifying the response
-        mockMvc.perform(put("/service")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(medicalService)))
-                .andExpect(status().isOk());
+        when(serviceService.getServiceById(id)).thenReturn(null);
+
+        ResponseEntity<ServiceDTO> response = serviceController.getService(id);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    public void deleteService_ReturnsOk() throws Exception {
-        // Performing HTTP DELETE request and verifying the response
-        mockMvc.perform(delete("/service/1"))
-                .andExpect(status().isOk());
+    public void testAddService_ValidService() {
+        MedicalService service = new MedicalService();
+        service.setId(1);
+
+        when(serviceService.createService(service)).thenReturn(service);
+
+        ResponseEntity<Void> response = serviceController.addService(service);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
     @Test
-    public void getServicesByDepartmentId_ReturnsListOfServices() throws Exception {
-        // Mocking service response
-        List<MedicalService> medicalServices = new ArrayList<>();
-        when(serviceService.getServicesByDepartmentId(1L)).thenReturn(medicalServices);
+    public void testAddService_InvalidService() {
+        MedicalService service = new MedicalService();
 
-        // Performing HTTP GET request and verifying the response
-        mockMvc.perform(get("/service/department/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        when(serviceService.createService(service)).thenReturn(null);
+
+        ResponseEntity<Void> response = serviceController.addService(service);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteService() {
+        long id = 1L;
+
+        ResponseEntity<Void> response = serviceController.deleteService(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(serviceService, times(1)).deleteService(id);
+    }
+
+    @Test
+    public void testGetServicesByDepartmentId_ExistingServices() {
+        long departmentId = 1L;
+        List<MedicalService> services = new ArrayList<>();
+        services.add(new MedicalService());
+        services.add(new MedicalService());
+
+        when(serviceService.getServicesByDepartmentId(departmentId)).thenReturn(services);
+
+        ResponseEntity<List<MedicalService>> response = serviceController.getServicesByDepartmentId(departmentId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(services, response.getBody());
+    }
+
+    @Test
+    public void testGetServicesByDepartmentId_NoServicesFound() {
+        long departmentId = 1L;
+
+        when(serviceService.getServicesByDepartmentId(departmentId)).thenReturn(new ArrayList<>());
+
+        ResponseEntity<List<MedicalService>> response = serviceController.getServicesByDepartmentId(departmentId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }
