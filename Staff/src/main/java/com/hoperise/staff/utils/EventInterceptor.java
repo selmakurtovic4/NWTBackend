@@ -21,7 +21,7 @@ public class EventInterceptor implements HandlerInterceptor {
         EventResponse eventResponse = stub.logEvent(
                 EventRequest.newBuilder()
                         .setTimestamp(LocalDateTime.now().toString())
-                        .setMicroserviceName("appointment")
+                        .setMicroserviceName("staff")
                         .setUser("admin")
                         .setAction(request.getMethod())
                         .setResource(request.getRequestURI())
