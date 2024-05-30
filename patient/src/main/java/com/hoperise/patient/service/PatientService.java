@@ -26,6 +26,10 @@ public class PatientService {
         return patientRepository.findPatientByUserId(userId);
     }
 
+    public Patient getPatient(Long id) {
+        return patientRepository.findById(id).get();
+    }
+
     public Patient createPatient(Patient patient) {
         if (patientRepository.existsById(patient.getId())) {
             throw new RuntimeException("A patient with this ID already exists.");
@@ -39,7 +43,7 @@ public class PatientService {
         newPatient.setGender(patient.getGender());
         newPatient.setCity(patient.getCity());
         newPatient.setFirst_name(patient.getFirst_name());
-        newPatient.setLast_name(patient.getLast_name());
+        newPatient.setLastName(patient.getLastName());
         newPatient.setDate_of_birth(patient.getDate_of_birth());
         newPatient.setPhone_number(patient.getPhone_number());
 
@@ -54,5 +58,11 @@ public class PatientService {
         }
         return ("A patient with this ID doesn't exist.");
 
+    }
+
+    public Long getPatientsByLastName(String lastName) {
+        List<Patient> patients = patientRepository.findByLastName(lastName);
+        Patient patient = patients.get(0);
+        return patient.getId();
     }
 }

@@ -28,9 +28,21 @@ public class PatientController {
         return patientService.getPatientsByLastName(last_name);
     }*/
 
-    @GetMapping("/patients/{id}")
-    public Patient getPatientById(@PathVariable Long user_id) {
-        return patientService.getPatientById(user_id);
+//    @GetMapping("/{id}")
+//    public Patient getPatientById(@PathVariable Long id) {
+//        return patientService.getPatientById(id);
+//    }
+//
+    @GetMapping("/{id}")
+    public @ResponseBody ResponseEntity<Patient> getPatient(@PathVariable Long id) {
+        var patient = patientService.getPatient(id);
+        return  new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+    @GetMapping("/getIdByLastName/{lastName}")
+    public Long getIdByLastName(@PathVariable String lastName) {
+        Long id = patientService.getPatientsByLastName(lastName);
+        return id;
     }
 
     @PostMapping("/create")

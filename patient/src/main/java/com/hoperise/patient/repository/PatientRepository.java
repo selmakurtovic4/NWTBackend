@@ -12,8 +12,7 @@ import java.util.List;
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Patient findPatientByUserId(Long user_id);
-
-  //  List<Patient> findByLastName(String last_name);
+    List<Patient> findByLastName(String lastName);
 }
 
 

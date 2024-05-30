@@ -26,7 +26,7 @@ public class Patient {
 
     @Column(name = "last_name")
     @NotNull(message = "Last name must be specified!")
-    private String last_name;
+    private String lastName;
     @Column(name = "date_of_birth")
     @NotNull(message = "Date of birth must be specified!")
     private LocalDate date_of_birth;
@@ -73,12 +73,12 @@ public class Patient {
         this.first_name = first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public LocalDate getDate_of_birth() {
@@ -121,11 +121,23 @@ public class Patient {
         this.gender = gender;
     }
 
-    public Patient(Long id, Long jmbg, String first_name, String last_name, LocalDate date_of_birth, String city, String adress, Long phone_number, String gender, User user) {
+    public Patient(Long id, Long jmbg, String first_name, String lastName, LocalDate date_of_birth, String city, String adress, Long phone_number, String gender, User user) {
         this.id = id;
         this.jmbg = jmbg;
         this.first_name = first_name;
-        this.last_name = last_name;
+        this.lastName = lastName;
+        this.date_of_birth = date_of_birth;
+        this.city = city;
+        this.adress = adress;
+        this.phone_number = phone_number;
+        this.gender = gender;
+        this.user = user;
+    }
+
+    public Patient(Long jmbg, String first_name, String lastName, LocalDate date_of_birth, String city, String adress, Long phone_number, String gender, User user) {
+        this.jmbg = jmbg;
+        this.first_name = first_name;
+        this.lastName = lastName;
         this.date_of_birth = date_of_birth;
         this.city = city;
         this.adress = adress;
