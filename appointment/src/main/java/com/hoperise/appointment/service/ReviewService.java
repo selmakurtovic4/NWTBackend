@@ -60,7 +60,7 @@ public class ReviewService {
     }
 
     public List<Review> getDoctorReviews(Long doctorId) {
-        List<Review> reviews = reviewRepository.findAllByAppointment_DoctorId(doctorId);
+        List<Review> reviews = reviewRepository.findAllByAppointmentDoctorId(doctorId);
         if (reviews.isEmpty()) {
             throw new EntityNotFoundException("No reviews found for doctor with ID " + doctorId);
         }

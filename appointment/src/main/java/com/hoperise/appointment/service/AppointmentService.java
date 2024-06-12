@@ -2,11 +2,13 @@ package com.hoperise.appointment.service;
 
 import com.hoperise.appointment.model.appointment.Appointment;
 import com.hoperise.appointment.model.appointment.AppointmentRequest;
+import com.hoperise.appointment.model.appointment.AppointmentStatus;
 import com.hoperise.appointment.repository.AppointmentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -78,5 +80,46 @@ public class AppointmentService {
             throw new EntityNotFoundException("No appointments found for patient with ID " + patientId);
         }
         return appointments;
+    }
+
+    public List<Appointment> getUpcomingAppointmentsForDoctor(Long doctorId) {
+        return appointmentRepository.findByDoctorIdAndDateAfter(doctorId, LocalDate.now());
+    }
+
+    public List<Appointment> getPastAppointmentsForDoctor(Long doctorId) {
+        return appointmentRepository.findByDoctorIdAndDateBefore(doctorId, LocalDate.now());
+    }
+
+    public List<Appointment> getTodayAppointmentsForDoctor(Long doctorId) {
+        return appointmentRepository.findByDoctorIdAndDate(doctorId, LocalDate.now());
+    }
+
+    public List<Appointment> getUpcomingAppointmentsForPatient(Long patientId) {
+        return appointmentRepository.findByPatientIdAndDateAfter(patientId, LocalDate.now());
+    }
+
+    public List<Appointment> getPastAppointmentsForPatient(Long patientId) {
+        return appointmentRepository.findByPatientIdAndDateBefore(patientId, LocalDate.now());
+    }
+
+    public List<Appointment> getTodayAppointmentsForPatient(Long patientId) {
+        return appointmentRepository.findByPatientIdAndDate(patientId, LocalDate.now());
+    }
+
+    public List<Appointment> getAvailableAppointmentsForDoctorAndDate(Long doctorId, LocalDate date) {
+        return appointmentRepository.findByDoctorIdAndDateAndStatus(doctorId, date, AppointmentStatus.AVAILABLE);
+    }
+
+    public Appointment bookAppointment(Long appointmentId, Long patientId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new EntityNotFoundException("Appointment with ID " + appointmentId + " not found"));
+
+        if (appointment.getStatus() == AppointmentStatus.AVAILABLE) {
+            appointment.setStatus(AppointmentStatus.BOOKED);
+            appointment.setPatientId(patientId);
+            return appointmentRepository.save(appointment);
+        } else {
+            throw new IllegalStateException("Appointment with ID " + appointmentId + " is not available for booking.");
+        }
     }
 }
