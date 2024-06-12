@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -37,6 +38,7 @@ public class MedicalReportController {
         return new ResponseEntity<>(medicalReportService.getMedicalReportsForPatient(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping("/create")
     public @ResponseBody ResponseEntity<?> create(@RequestBody @Valid MedicalReport medicalReport) {
         var createdReport = medicalReportService.createMedicalReport(medicalReport);
@@ -46,6 +48,7 @@ public class MedicalReportController {
         return new ResponseEntity<>(createdReport, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @DeleteMapping("/delete/{id}")
     public @ResponseBody ResponseEntity<?> delete(@PathVariable Long id) {
         boolean deleted = medicalReportService.deleteMedicalReport(id);

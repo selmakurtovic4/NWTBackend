@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,6 +28,7 @@ public class MedicalInformationController {
         this.medicalInformationService = medicalInformationService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(path = "/all")
     public @ResponseBody ResponseEntity<List<MedicalInformation>> getAllMedicalInformation() {
         return new ResponseEntity<>(medicalInformationService.getAllMedicalInformation(), HttpStatus.OK);
@@ -42,6 +44,7 @@ public class MedicalInformationController {
         return new ResponseEntity<>(medicalInformationService.getMedicalInformationForPatient(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @PostMapping("/create")
     public @ResponseBody ResponseEntity<?> createMedicalInformation(@RequestBody @Valid MedicalInformation medicalInformation) {
         String patientIdUrl = "http://patient/patient/check/" + medicalInformation.getPatientId();
@@ -58,6 +61,7 @@ public class MedicalInformationController {
         return new ResponseEntity<>(createdInformation, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
     @DeleteMapping("/delete/{id}")
     public @ResponseBody ResponseEntity<?> deleteMedicalInformation(@PathVariable Long id) {
         boolean deleted = medicalInformationService.deleteMedicalInformation(id);
