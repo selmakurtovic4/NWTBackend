@@ -3,6 +3,7 @@ package com.hoperise.staff.controllers;
 import com.hoperise.staff.dtos.ServiceDTO;
 import com.hoperise.staff.models.MedicalService;
 import com.hoperise.staff.services.IServiceService;
+import com.hoperise.staff.services.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import java.util.List;
 @RequestMapping("/service")
 public class ServiceController {
 
-    private final IServiceService serviceService;
+    private final ServiceService serviceService;
 
     @Autowired
-    public ServiceController(IServiceService serviceService) {
+    public ServiceController(ServiceService serviceService) {
         this.serviceService = serviceService;
     }
 
@@ -48,8 +49,18 @@ public class ServiceController {
     }
 
     @GetMapping("/department/{departmentId}")
-    public ResponseEntity<List<MedicalService>> getServicesByDepartmentId(@PathVariable long departmentId) {
+    public ResponseEntity<List<MedicalService>> getServicesByDepartmentId(@PathVariable int departmentId) {
         List<MedicalService> services = serviceService.getServicesByDepartmentId(departmentId);
+        if (!services.isEmpty()) {
+            return new ResponseEntity<>(services, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<MedicalService>> getAllServices() {
+        List<MedicalService> services = serviceService.getAllServices();
         if (!services.isEmpty()) {
             return new ResponseEntity<>(services, HttpStatus.OK);
         } else {

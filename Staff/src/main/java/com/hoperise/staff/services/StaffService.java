@@ -1,6 +1,6 @@
 package com.hoperise.staff.services;
 
-import com.hoperise.staff.dtos.CreateUserRequestDTO;
+import com.hoperise.staff.models.Department;
 import com.hoperise.staff.models.Doctor;
 import com.hoperise.staff.models.User;
 import com.hoperise.staff.repositories.MedicalStaffRepository;
@@ -29,23 +29,7 @@ public class StaffService implements IStaffService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public User createUser(CreateUserRequestDTO userRequestDTO) {
-        // Encode the password
-     //   String encodedPassword = passwordEncoder.encode(userRequestDTO.getPassword());
 
-        // Create the user object
-        User user = new User(userRequestDTO.getName(), userRequestDTO.getLastName(), userRequestDTO.getPassword());
-
-        // Save the user to the database
-        return userRepository.save(user);
-    }
-
-    public String RegisterNonMedicalStaff(CreateUserRequestDTO userRequestDTO){
-     var user= createUser(userRequestDTO);
-
-     return jwtTokenProvider.generateToken(userRequestDTO.getUsername(),"ADMIN");
-
-    }
 
     public User getUserById(Long id){
         return userRepository.getById(id);
@@ -58,4 +42,13 @@ public class StaffService implements IStaffService {
     public List<Doctor> getDoctorByLastName(String lastName){
         return medicalStaffRepository.findByLastName(lastName);
     }
+
+
+
+    public void createDoctor(User user, int departmentId, String specialization, String bio ){
+        var newDepartment=new Department(departmentId, "");
+        var newDoctor=new Doctor(user, newDepartment, specialization, bio);
+        medicalStaffRepository.save(newDoctor);
+    }
+
 }

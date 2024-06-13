@@ -1,6 +1,5 @@
 package com.hoperise.staff.controllers;
 
-import com.hoperise.staff.dtos.CreateUserRequestDTO;
 import com.hoperise.staff.models.Doctor;
 import com.hoperise.staff.models.User;
 import com.hoperise.staff.services.StaffService;
@@ -42,4 +41,10 @@ public class StaffController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public void CreateDoctor(User user, int departmentId, String specialization, String biography){
+      staffService.createDoctor(user, departmentId, specialization, biography);
+
+    }
+
 }

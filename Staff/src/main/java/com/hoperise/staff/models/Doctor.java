@@ -15,4 +15,11 @@ public class Doctor {
     private Department department;
     private String specialization;
     private String biography;
+
+    public Doctor(User user, Department department, String specialization, String biography) {
+        this.user = user;
+        this.department = department;
+        this.specialization = specialization;
+        this.biography = biography;
+    }
 }

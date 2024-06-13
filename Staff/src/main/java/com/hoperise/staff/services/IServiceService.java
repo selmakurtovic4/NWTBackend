@@ -20,4 +20,6 @@ public interface IServiceService {
 
     // Retrieve services by department ID
     List<MedicalService> getServicesByDepartmentId(long departmentId);
+
+    List<MedicalService> getAllServices();
 }

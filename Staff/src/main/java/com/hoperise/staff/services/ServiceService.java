@@ -26,8 +26,8 @@ public class ServiceService {
     }
 
 
-    public void createService(MedicalService service) {
-        serviceRepository.save(service);
+    public MedicalService createService(MedicalService service) {
+        serviceRepository.save(service); return service;
     }
 
 
@@ -48,11 +48,14 @@ public class ServiceService {
         serviceRepository.deleteById(id);
     }
 
-    public MedicalService getServicesByDepartmentId(int departmentId) {
+    public List<MedicalService> getServicesByDepartmentId(int departmentId) {
         return serviceRepository.findByDepartmentId(departmentId);
     }
     public MedicalService findByName(String name){
         return serviceRepository.findByName(name);
     }
 
+    public List<MedicalService> getAllServices() {
+        return serviceRepository.findAll();
+    }
 }
